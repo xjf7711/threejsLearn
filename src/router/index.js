@@ -113,8 +113,8 @@ export default new Router({
 export const asyncRouterMap = [
   // ...elementAsyncRouterMap,
   ...examplesRouterMap,
-  ...guideRouterMap,
   ...blogRouterMap,
+  ...guideRouterMap,
   ...learningRouterMap,
   ...practicesRouterMap,
   ...prisonRouterMap,

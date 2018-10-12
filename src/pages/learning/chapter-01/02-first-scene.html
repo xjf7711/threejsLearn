@@ -31,12 +31,12 @@
 
     // create a render and set the size
     var renderer = new THREE.WebGLRenderer()
-    renderer.setClearColorHex()
+    // renderer.setClearColorHex()
     renderer.setClearColor(new THREE.Color(0xEEEEEE))
     renderer.setSize(window.innerWidth, window.innerHeight)
 
     // show axes in the screen
-    var axes = new THREE.AxisHelper(20)
+    var axes = new THREE.AxesHelper(20)
     scene.add(axes)
 
     // create the ground plane

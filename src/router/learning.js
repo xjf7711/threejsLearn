@@ -1,5 +1,5 @@
 import Layout from '@/views/layout/Layout'
-import Example from '@/pages/threeExample/Example.vue'
+import Example from '@/pages/examples/Example.vue'
 export const learningRouterMap = [
   {
     path: '/learning',

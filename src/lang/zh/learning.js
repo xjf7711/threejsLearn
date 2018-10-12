@@ -1,5 +1,5 @@
 export const learningRoute = {
-  Learning: '学习指南',
+  Learning: '开发指南',
   example01: '例01',
   example02: '例02',
   example03: '例03',

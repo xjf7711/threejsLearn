@@ -12,7 +12,7 @@ import * as Stats from 'stats.js'
 import * as dat from 'dat.gui'
 import SceneUtils from '@/assets/threejs/js/utils/SceneUtils'
 export default {
-  name: 'Examples01',
+  name: 'Example01',
   data() {
     return {
       width: 700,

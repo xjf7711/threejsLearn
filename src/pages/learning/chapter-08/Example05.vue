@@ -90,7 +90,6 @@ export default {
     },
     initModels() {
       const loader = new THREE.JSONLoader()
-      // const uri = 'static/threejs/models/dimianA.json'
       const uri = 'static/threejs/models/misc_chair01.json'
       console.log('uri is ' + uri)
 
