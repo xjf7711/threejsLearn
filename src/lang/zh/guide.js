@@ -1,5 +1,6 @@
 export const guideRoute = {
-  catalogue: '目录',
+  Guide: '入门指南',
+  Index: '目录',
   preface: '前言',
   introduction: '介绍',
   'example1-1-1': '例1-1-1',

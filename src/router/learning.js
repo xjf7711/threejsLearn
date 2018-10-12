@@ -16,31 +16,31 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example02',
-            component: () => import('@/pages/threeLesson/chapter-01/Example02.vue'),
+            component: () => import('@/pages/learning/chapter-01/Example02.vue'),
             name: 'Example0102Index',
             meta: { title: 'example02', icon: 'table', noCache: true }
           },
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-01/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-01/Example03.vue'),
             name: 'Example0103Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example04',
-            component: () => import('@/pages/threeLesson/chapter-01/Example04.vue'),
+            component: () => import('@/pages/learning/chapter-01/Example04.vue'),
             name: 'Example0104Index',
             meta: { title: 'example04', icon: 'table', noCache: true }
           },
           {
             path: 'example05',
-            component: () => import('@/pages/threeLesson/chapter-01/Example05.vue'),
+            component: () => import('@/pages/learning/chapter-01/Example05.vue'),
             name: 'Example0105Index',
             meta: { title: 'example05', icon: 'table', noCache: true }
           },
           {
             path: 'example06',
-            component: () => import('@/pages/threeLesson/chapter-01/Example06.vue'),
+            component: () => import('@/pages/learning/chapter-01/Example06.vue'),
             name: 'Example0106Index',
             meta: { title: 'example06', icon: 'table', noCache: true }
           }
@@ -55,49 +55,49 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example01',
-            component: () => import('@/pages/threeLesson/chapter-02/Example01.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example01.vue'),
             name: 'Example0201Index',
             meta: { title: 'example01', icon: 'table', noCache: true }
           },
           {
             path: 'example02',
-            component: () => import('@/pages/threeLesson/chapter-02/Example02.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example02.vue'),
             name: 'Example0202Index',
             meta: { title: 'example02', icon: 'table', noCache: true }
           },
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-02/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example03.vue'),
             name: 'Example0203Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example04',
-            component: () => import('@/pages/threeLesson/chapter-02/Example04.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example04.vue'),
             name: 'Example0204Index',
             meta: { title: 'example04', icon: 'table', noCache: true }
           },
           {
             path: 'example05',
-            component: () => import('@/pages/threeLesson/chapter-02/Example05.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example05.vue'),
             name: 'Example0205Index',
             meta: { title: 'example05', icon: 'table', noCache: true }
           },
           {
             path: 'example06',
-            component: () => import('@/pages/threeLesson/chapter-02/Example06.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example06.vue'),
             name: 'Example0206Index',
             meta: { title: 'example06', icon: 'table', noCache: true }
           },
           {
             path: 'example07',
-            component: () => import('@/pages/threeLesson/chapter-02/Example07.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example07.vue'),
             name: 'Example0207Index',
             meta: { title: 'example07', icon: 'table', noCache: true }
           },
           {
             path: 'example08',
-            component: () => import('@/pages/threeLesson/chapter-02/Example08.vue'),
+            component: () => import('@/pages/learning/chapter-02/Example08.vue'),
             name: 'Example0208Index',
             meta: { title: 'example08', icon: 'table', noCache: true }
           }
@@ -112,43 +112,43 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example01',
-            component: () => import('@/pages/threeLesson/chapter-03/Example01.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example01.vue'),
             name: 'Example0301Index',
             meta: { title: 'example01', icon: 'table', noCache: true }
           },
           {
             path: 'example02',
-            component: () => import('@/pages/threeLesson/chapter-03/Example02.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example02.vue'),
             name: 'Example0302Index',
             meta: { title: 'example02', icon: 'table', noCache: true }
           },
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-03/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example03.vue'),
             name: 'Example0303Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example04',
-            component: () => import('@/pages/threeLesson/chapter-03/Example04.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example04.vue'),
             name: 'Example0304Index',
             meta: { title: 'example04', icon: 'table', noCache: true }
           },
           {
             path: 'example05',
-            component: () => import('@/pages/threeLesson/chapter-03/Example05.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example05.vue'),
             name: 'Example0305Index',
             meta: { title: 'example05', icon: 'table', noCache: true }
           },
           {
             path: 'example06',
-            component: () => import('@/pages/threeLesson/chapter-03/Example06.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example06.vue'),
             name: 'Example0306Index',
             meta: { title: 'example06', icon: 'table', noCache: true }
           },
           {
             path: 'example07',
-            component: () => import('@/pages/threeLesson/chapter-03/Example07.vue'),
+            component: () => import('@/pages/learning/chapter-03/Example07.vue'),
             name: 'Example0307Index',
             meta: { title: 'example07', icon: 'table', noCache: true }
           }
@@ -163,13 +163,13 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example01',
-            component: () => import('@/pages/threeLesson/chapter-04/Example01.vue'),
+            component: () => import('@/pages/learning/chapter-04/Example01.vue'),
             name: 'Example0401Index',
             meta: { title: 'example01', icon: 'table', noCache: true }
           },
           {
             path: 'example02',
-            component: () => import('@/pages/threeLesson/chapter-04/Example02.vue'),
+            component: () => import('@/pages/learning/chapter-04/Example02.vue'),
             name: 'Example0402Index',
             meta: { title: 'example02', icon: 'table', noCache: true }
           }
@@ -184,13 +184,13 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-05/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-05/Example03.vue'),
             name: 'Example0503Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example06',
-            component: () => import('@/pages/threeLesson/chapter-05/Example06.vue'),
+            component: () => import('@/pages/learning/chapter-05/Example06.vue'),
             name: 'Example0506Index',
             meta: { title: 'example06', icon: 'table', noCache: true }
           }
@@ -205,19 +205,19 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-06/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-06/Example03.vue'),
             name: 'Example0603Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example04',
-            component: () => import('@/pages/threeLesson/chapter-06/Example04.vue'),
+            component: () => import('@/pages/learning/chapter-06/Example04.vue'),
             name: 'Example0604Index',
             meta: { title: 'example04', icon: 'table', noCache: true }
           },
           {
             path: 'example08',
-            component: () => import('@/pages/threeLesson/chapter-06/Example08.vue'),
+            component: () => import('@/pages/learning/chapter-06/Example08.vue'),
             name: 'Example0608Index',
             meta: { title: 'example08', icon: 'table', noCache: true }
           }
@@ -232,43 +232,43 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example01',
-            component: () => import('@/pages/threeLesson/chapter-08/Example01.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example01.vue'),
             name: 'Example0801Index',
             meta: { title: 'example01', icon: 'table', noCache: true }
           },
           {
             path: 'example02',
-            component: () => import('@/pages/threeLesson/chapter-08/Example02.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example02.vue'),
             name: 'Example0802Index',
             meta: { title: 'example02', icon: 'table', noCache: true }
           },
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-08/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example03.vue'),
             name: 'Example0803Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example05',
-            component: () => import('@/pages/threeLesson/chapter-08/Example05.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example05.vue'),
             name: 'Example0805Index',
             meta: { title: 'example05', icon: 'table', noCache: true }
           },
           {
             path: 'example06',
-            component: () => import('@/pages/threeLesson/chapter-08/Example06.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example06.vue'),
             name: 'Example0806Index',
             meta: { title: 'example06', icon: 'table', noCache: true }
           },
           {
             path: 'example07',
-            component: () => import('@/pages/threeLesson/chapter-08/Example07.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example07.vue'),
             name: 'Example0807Index',
             meta: { title: 'example07', icon: 'table', noCache: true }
           },
           {
             path: 'example08',
-            component: () => import('@/pages/threeLesson/chapter-08/Example08.vue'),
+            component: () => import('@/pages/learning/chapter-08/Example08.vue'),
             name: 'Example0808Index',
             meta: { title: 'example08', icon: 'table', noCache: true }
           }
@@ -283,25 +283,25 @@ export const learningRouterMap = [
         children: [
           {
             path: 'example01',
-            component: () => import('@/pages/threeLesson/chapter-09/Example01.vue'),
+            component: () => import('@/pages/learning/chapter-09/Example01.vue'),
             name: 'Example0901Index',
             meta: { title: 'example01', icon: 'table', noCache: true }
           },
           {
             path: 'example02',
-            component: () => import('@/pages/threeLesson/chapter-09/Example02.vue'),
+            component: () => import('@/pages/learning/chapter-09/Example02.vue'),
             name: 'Example0902Index',
             meta: { title: 'example02', icon: 'table', noCache: true }
           },
           {
             path: 'example03',
-            component: () => import('@/pages/threeLesson/chapter-09/Example03.vue'),
+            component: () => import('@/pages/learning/chapter-09/Example03.vue'),
             name: 'Example0903Index',
             meta: { title: 'example03', icon: 'table', noCache: true }
           },
           {
             path: 'example07',
-            component: () => import('@/pages/threeLesson/chapter-09/Example07.vue'),
+            component: () => import('@/pages/learning/chapter-09/Example07.vue'),
             name: 'Example0907Index',
             meta: { title: 'example07', icon: 'table', noCache: true }
           }

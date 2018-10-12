@@ -1,7 +1,8 @@
 import { elementAdminRoute } from './zh/element'
 import { exampleRoute } from './zh/example'
 import { guideRoute } from './zh/guide'
-import { lessonRoute } from './zh/lesson'
+import { blogRoute } from './zh/blog'
+import { learningRoute } from './zh/learning'
 import { practicesRoute } from './zh/practices'
 import { prisonRoute } from './zh/prison'
 import { warshipRoute } from './zh/warship'
@@ -11,7 +12,8 @@ export default {
     ...elementAdminRoute,
     ...exampleRoute,
     ...guideRoute,
-    ...lessonRoute,
+    ...blogRoute,
+    ...learningRoute,
     ...practicesRoute,
     ...prisonRoute,
     ...warshipRoute

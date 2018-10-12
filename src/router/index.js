@@ -7,8 +7,8 @@ Vue.use(Router)
 import Layout from '../views/layout/Layout'
 // import { elementConstantRouterMap, elementAsyncRouterMap } from './element'
 import { examplesRouterMap } from './examples'
-// import { guideRouterMap } from './guide'
-import { lessonRouterMap } from './lesson'
+import { guideRouterMap } from './guide'
+import { blogRouterMap } from './blog'
 import { learningRouterMap } from './learning'
 import { practicesRouterMap } from './practices'
 import { prisonRouterMap } from './prison'
@@ -113,8 +113,8 @@ export default new Router({
 export const asyncRouterMap = [
   // ...elementAsyncRouterMap,
   ...examplesRouterMap,
-  // ...guideRouterMap,
-  ...lessonRouterMap,
+  ...guideRouterMap,
+  ...blogRouterMap,
   ...learningRouterMap,
   ...practicesRouterMap,
   ...prisonRouterMap,

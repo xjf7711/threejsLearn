@@ -1,5 +1,5 @@
-export const lessonRoute = {
-  Blogs: '学习博客',
+export const blogRoute = {
+  Blog: '学习博客',
   lesson1: '第1课',
   lesson2: '第2课',
   lesson3: '第3课',
@@ -51,24 +51,5 @@ export const lessonRoute = {
   example06: '例06',
   example07: '例07',
   example08: '例08',
-  example09: '例09',
-
-  Warship: '军舰',
-  Outview: '外观',
-  Jianjiaban: '舰甲板',
-  Jianjiaban4: '舰甲板4',
-  Prison: '监狱',
-  Dimian: '地面',
-  JingWeiYiPingTai: '经纬仪平台',
-  LuoJingJiaBan05: '罗经甲板',
-  PingTaiJiaBan: '平台甲板',
-  ShangJiaBan: '上甲板',
-  ShangQiaoLouJiaBan03: '上桥楼甲板3',
-  XiaJiaBan: '下甲板',
-  XiaQiaoLouJiaBan: '下桥楼甲板',
-  DiMianA: '地面A',
-  DiMianB: '地面B',
-  DiCeng: '底层',
-  DuiJiangJi: '对讲机'
-
+  example09: '例09'
 }
