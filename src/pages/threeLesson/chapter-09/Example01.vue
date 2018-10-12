@@ -1,0 +1,204 @@
+<template>
+  <div class="example">
+    <h2>Example 09.01 - Basic animations</h2>
+  </div>
+</template>
+
+<script>
+import * as THREE from 'three'
+import * as Stats from 'stats.js'
+import * as dat from 'dat.gui'
+// import Projector from '@/assets/threejs/libs/Projector'
+export default {
+  name: 'Example02',
+  data() {
+    return {
+      stats: null,
+      width: 0,
+      height: 0,
+      scene: null,
+      camera: null,
+      renderer: null,
+      cube: null,
+      sphere: null,
+      cylinder: null,
+      step: 0,
+      scalingStep: 0,
+      tube: null,
+      raycaster: null
+    }
+  },
+  mounted() {
+    this.width = this.$el.clientWidth - 40
+    this.height = this.$el.clientHeight - 100
+    this.mouse = new THREE.Vector2()
+    this.raycaster = new THREE.Raycaster()
+    this.main()
+  },
+  methods: {
+    main() {
+      this.initStats()
+      this.initGui()
+      this.initScene()
+      this.initCamera()
+      this.initRenderer()
+      this.initLight()
+      this.initModels()
+
+      // const projector = new Projector() -- 没有用到
+      // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+      // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
+
+      // call the render function
+      // const step = 0
+      // const scalingStep = 0
+
+      this.render()
+
+      // let projector = new Projector()
+      // let tube
+    },
+    // once everything is loaded, we run our Three.js stuff.
+    initScene() {
+      // create a scene, that will hold all our elements such as objects, cameras and lights.
+      this.scene = new THREE.Scene()
+    },
+    initCamera() {
+      // create a camera, which defines where we're looking at.
+      this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000)
+
+      // position and point the camera to the center of the scene
+      this.camera.position.x = -30
+      this.camera.position.y = 40
+      this.camera.position.z = 30
+      this.camera.lookAt(this.scene.position)
+    },
+    initRenderer() {
+      // create a render and set the size
+      this.renderer = new THREE.WebGLRenderer()
+      this.renderer.setClearColor(0xEEEEEE, 1.0)
+      this.renderer.setSize(this.width, this.height)
+
+      // // 事件
+      // this.renderer.domElement.addEventListener('mousedown', this.onDocumentMouseDown, false)
+      // this.renderer.domElement.addEventListener('mousemove', this.onDocumentMouseMove, false)
+
+      // add the output of the renderer to the html element
+      this.$el.appendChild(this.renderer.domElement)
+    },
+    initLight() {
+      // add subtle ambient lighting
+      const ambientLight = new THREE.AmbientLight(0x0c0c0c)
+      this.scene.add(ambientLight)
+
+      // add spotlight for the shadows
+      const spotLight = new THREE.SpotLight(0xffffff)
+      spotLight.position.set(-40, 60, -10)
+
+      this.scene.add(spotLight)
+    },
+    initModels() {
+      // create the ground plane
+      const planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1)
+      const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff })
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+
+      // rotate and position the plane
+      plane.rotation.x = -0.5 * Math.PI
+      plane.position.x = 15
+      plane.position.y = 0
+      plane.position.z = 0
+
+      // add the plane to the scene
+      this.scene.add(plane)
+
+      // create a cube
+      const cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
+      const cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 })
+      this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+
+      // position the cube
+      this.cube.position.set(-9, 3, 0)
+
+      // add the cube to the scene
+      this.scene.add(this.cube)
+
+      const sphereGeometry = new THREE.SphereGeometry(4, 20, 20)
+      const sphereMaterial = new THREE.MeshLambertMaterial({ color: 0x7777ff })
+      this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+
+      // position the sphere
+      this.sphere.position.set(20, 0, 2)
+
+      // add the sphere to the scene
+      this.scene.add(this.sphere)
+
+      const cylinderGeometry = new THREE.CylinderGeometry(2, 2, 20)
+      const cylinderMaterial = new THREE.MeshLambertMaterial({ color: 0x77ff77 })
+      this.cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial)
+
+      this.cylinder.position.set(0, 0, 1)
+
+      this.scene.add(this.cylinder)
+    },
+
+    render() {
+      this.stats.update()
+
+      // rotate the cube around its axes
+      this.cube.rotation.x += this.controls.rotationSpeed
+      this.cube.rotation.y += this.controls.rotationSpeed
+      this.cube.rotation.z += this.controls.rotationSpeed
+
+      // bounce the sphere up and down
+      this.step += this.controls.bouncingSpeed
+      this.sphere.position.x = 20 + (10 * (Math.cos(this.step)))
+      this.sphere.position.y = 2 + (10 * Math.abs(Math.sin(this.step)))
+
+      // scale the cylinder
+      this.scalingStep += this.controls.scalingSpeed
+      const scaleX = Math.abs(Math.sin(this.scalingStep / 4))
+      const scaleY = Math.abs(Math.cos(this.scalingStep / 5))
+      const scaleZ = Math.abs(Math.sin(this.scalingStep / 7))
+      this.cylinder.scale.set(scaleX, scaleY, scaleZ)
+
+      // render using requestAnimationFrame
+      this.renderer.render(this.scene, this.camera)
+      requestAnimationFrame(this.render)
+    },
+    initGui() {
+      this.controls = {
+        rotationSpeed: 0.02,
+        bouncingSpeed: 0.03,
+        scalingSpeed: 0.03
+      }
+
+      const datGui = new dat.GUI()
+      datGui.add(this.controls, 'rotationSpeed', 0, 0.5)
+      datGui.add(this.controls, 'bouncingSpeed', 0, 0.5)
+      datGui.add(this.controls, 'scalingSpeed', 0, 0.5)
+    },
+    initStats() {
+      this.stats = new Stats()
+
+      this.stats.setMode(0) // 0: fps, 1: ms
+
+      // Align top-left
+      this.stats.domElement.style.position = 'absolute'
+      this.stats.domElement.style.left = '0px'
+      this.stats.domElement.style.top = '0px'
+
+      this.$el.appendChild(this.stats.domElement)
+    }
+  }
+}
+</script>
+
+<style scoped>
+  .example {
+    padding: 20px;
+    width: 100%;
+    height: 800px;
+    background-color: #eeeeee;
+  }
+</style>

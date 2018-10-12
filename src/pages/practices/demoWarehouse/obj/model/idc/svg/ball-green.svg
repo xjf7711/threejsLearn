@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="14.173px" height="14.174px" viewBox="0 0 14.173 14.174" enable-background="new 0 0 14.173 14.174" xml:space="preserve">
+<g id="XMLID_240_">
+	<circle id="XMLID_248_" fill="#040000" cx="7.087" cy="7.087" r="7.087"/>
+	
+		<radialGradient id="XMLID_197_" cx="5.6946" cy="591.6581" r="8.3884" gradientTransform="matrix(1 0 0 -1 0 596.72)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#80C161"/>
+		<stop  offset="1" style="stop-color:#13853B"/>
+	</radialGradient>
+	<circle id="XMLID_246_" fill="url(#XMLID_197_)" cx="7.087" cy="7.087" r="5.695"/>
+	
+		<rect id="XMLID_244_" x="4.429" y="3.796" opacity="0.5" fill="#FFFFFF" enable-background="new    " width="1.898" height="1.898"/>
+	
+		<rect id="XMLID_242_" x="4.429" y="3.796" opacity="0.5" fill="#FFFFFF" enable-background="new    " width="0.949" height="1.898"/>
+</g>
+</svg>

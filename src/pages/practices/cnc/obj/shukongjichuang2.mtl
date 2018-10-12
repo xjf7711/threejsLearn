@@ -1,0 +1,30 @@
+# 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
+# 创建的文件:28.04.2016 14:21:29
+
+newmtl 05___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 1.0000 1.0000 1.0000 
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka shukongjichuang2.jpg
+	map_Kd shukongjichuang2.jpg
+
+newmtl 01___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 0.8000
+	Tr 0.8000
+	Tf 0.8000 0.8000 0.8000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka yy.png
+	map_Kd yy.png

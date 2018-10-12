@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="35px" height="10px" viewBox="0 0 35 10" style="enable-background:new 0 0 35 10;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#XMLID_28_);}
+</style>
+<linearGradient id="XMLID_28_" gradientUnits="userSpaceOnUse" x1="-1.1248" y1="5" x2="35.4075" y2="5">
+	<stop  offset="0" style="stop-color:#106186"/>
+	<stop  offset="0.4261" style="stop-color:#40B4D4"/>
+	<stop  offset="0.4462" style="stop-color:#42B8D8"/>
+	<stop  offset="0.5669" style="stop-color:#40B5D5"/>
+	<stop  offset="0.6666" style="stop-color:#3AAACC"/>
+	<stop  offset="0.7588" style="stop-color:#3199BC"/>
+	<stop  offset="0.8464" style="stop-color:#2381A5"/>
+	<stop  offset="0.9301" style="stop-color:#126289"/>
+	<stop  offset="1" style="stop-color:#00426B"/>
+</linearGradient>
+<path id="XMLID_172_" class="st0" d="M30,10H5c-2.7,0-5-2.2-5-5v0c0-2.7,2.2-5,5-5l25,0c2.8,0,5,2.2,5,5v0C35,7.8,32.8,10,30,10z"/>
+</svg>
