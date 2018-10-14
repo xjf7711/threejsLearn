@@ -6,8 +6,10 @@
 
 <script>
 import * as THREE from 'three'
+import clearWebGLContext from '../../mixin/clearWebGLContext'
 export default {
   name: 'Example0102',
+  mixins: [clearWebGLContext],
   data() {
     return {
       width: 0,

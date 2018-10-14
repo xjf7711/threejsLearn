@@ -8,14 +8,14 @@
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
 import * as dat from 'dat.gui'
+import stats from '@/pages/mixin/stats'
+import windowResize from '@/pages/mixin/windowResize'
 // import Projector from '@/assets/threejs/libs/Projector'
 export default {
-  name: 'Example02',
+  name: 'Example01',
+  mixins: [stats, windowResize],
   data() {
     return {
-      stats: null,
-      width: 0,
-      height: 0,
       scene: null,
       camera: null,
       renderer: null,
@@ -23,42 +23,20 @@ export default {
       sphere: null,
       cylinder: null,
       step: 0,
-      scalingStep: 0,
-      tube: null,
-      raycaster: null
+      scalingStep: 0
     }
   },
   mounted() {
-    this.width = this.$el.clientWidth - 40
-    this.height = this.$el.clientHeight - 100
-    this.mouse = new THREE.Vector2()
-    this.raycaster = new THREE.Raycaster()
-    this.main()
+    this.initStats()
+    this.initGui()
+    this.initScene()
+    this.initCamera()
+    this.initRenderer()
+    this.initLight()
+    this.initModels()
+    this.render()
   },
   methods: {
-    main() {
-      this.initStats()
-      this.initGui()
-      this.initScene()
-      this.initCamera()
-      this.initRenderer()
-      this.initLight()
-      this.initModels()
-
-      // const projector = new Projector() -- 没有用到
-      // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
-      // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
-
-      // call the render function
-      // const step = 0
-      // const scalingStep = 0
-
-      this.render()
-
-      // let projector = new Projector()
-      // let tube
-    },
-    // once everything is loaded, we run our Three.js stuff.
     initScene() {
       // create a scene, that will hold all our elements such as objects, cameras and lights.
       this.scene = new THREE.Scene()
@@ -78,10 +56,6 @@ export default {
       this.renderer = new THREE.WebGLRenderer()
       this.renderer.setClearColor(0xEEEEEE, 1.0)
       this.renderer.setSize(this.width, this.height)
-
-      // // 事件
-      // this.renderer.domElement.addEventListener('mousedown', this.onDocumentMouseDown, false)
-      // this.renderer.domElement.addEventListener('mousemove', this.onDocumentMouseMove, false)
 
       // add the output of the renderer to the html element
       this.$el.appendChild(this.renderer.domElement)

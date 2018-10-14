@@ -8,8 +8,10 @@
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
 import * as dat from 'dat.gui'
+import clearWebGLContext from '../../mixin/clearWebGLContext'
 export default {
   name: 'Example0106',
+  mixins: [clearWebGLContext],
   data() {
     return {
       width: 0,
@@ -46,12 +48,12 @@ export default {
       const camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000)
       this.camera = camera
       // create a render and set the size
-      const renderer = new THREE.WebGLRenderer()
-      this.renderer = renderer
-      renderer.setClearColor(0xEEEEEE, 1.0)
+      this.renderer = new THREE.WebGLRenderer()
+      // this.renderer = renderer
+      this.renderer.setClearColor(0xEEEEEE, 1.0)
       // renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0))
-      renderer.setSize(this.width, this.height)
-      renderer.shadowMapEnabled = true
+      this.renderer.setSize(this.width, this.height)
+      this.renderer.shadowMap.enabled = true
 
       // create the ground plane
       const planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1)
@@ -112,7 +114,7 @@ export default {
       scene.add(spotLight)
 
       // add the output of the renderer to the html element
-      this.$el.appendChild(renderer.domElement)
+      this.$el.appendChild(this.renderer.domElement)
 
       // call the render function
       // const step = 0

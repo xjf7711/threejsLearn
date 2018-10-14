@@ -81,13 +81,13 @@ function initLight() {
   scene.add(helper)
 
   var mtlLoader = new THREE.MTLLoader()
-  mtlLoader.setPath('/vue-element-admin/src/pages/threeLesson/lib/assets/models/') // /lib/assets/models/
+  mtlLoader.setPath('/threejsLearn/src/pages/threeLesson/lib/assets/models/') // /lib/assets/models/
   // 加载mtl文件
   mtlLoader.load('city.mtl', function(material) {
       var objLoader = new THREE.OBJLoader()
       // 设置当前加载的纹理
       objLoader.setMaterials(material)
-      objLoader.setPath('/vue-element-admin/src/pages/threeLesson/lib/assets/models/')
+      objLoader.setPath('/threejsLearn/src/pages/threeLesson/lib/assets/models/')
       objLoader.load('city.obj', function(object) {
         // 设置颜色的取值范围
         var scale = chroma.scale(['yellow', '008ae5'])

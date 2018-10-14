@@ -7,45 +7,37 @@
 <script>
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
-import * as Stats from 'stats.js'
+// import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
-
+import stats from '@/pages/mixin/stats'
+import mouse from '@/pages/mixin/mouse'
+import windowResize from '@/pages/mixin/windowResize'
 import PLYLoader from '@/assets/threejs/js/loaders/PLYLoader'
 
 export default {
   name: 'Example03',
+  mixins: [stats, windowResize, mouse],
   data() {
     return {
-      stats: null,
-      width: 0,
-      height: 0,
       scene: null,
       camera: null,
       camControls: null,
-      webGLRenderer: null,
+      renderer: null,
       loadedGeometry: null,
       pointCloud: null
     }
   },
   mounted() {
-    this.width = this.$el.clientWidth - 40
-    this.height = this.$el.clientHeight - 100
-    this.main()
-    // window.addEventListener('resize', this.onWindowResize, false)
-    window.onresize = this.onWindowResize
+    this.initStats()
+    this.initScene()
+    this.initCamera()
+    this.initRenderer()
+    this.initLight()
+    this.initModels()
+    // call the render function
+    this.animate()
   },
   methods: {
-    main() {
-      this.initStats()
-      this.initGui()
-      this.initScene()
-      this.initCamera()
-      this.initRenderer()
-      this.initLight()
-      this.initModels()
-      // call the render function
-      this.render()
-    },
     // once everything is loaded, we run our Three.js stuff.
     initScene() {
       // create a scene, that will hold all our elements such as objects, cameras and lights.
@@ -53,13 +45,13 @@ export default {
     },
     initRenderer() {
       // create a render and set the size
-      this.webGLRenderer = new THREE.WebGLRenderer()
-      this.webGLRenderer.setClearColor(0x000, 1.0)
-      this.webGLRenderer.setSize(this.width, this.height)
-      this.webGLRenderer.shadowMap.enabled = true
+      this.renderer = new THREE.WebGLRenderer()
+      this.renderer.setClearColor(0x000, 1.0)
+      this.renderer.setSize(this.width, this.height)
+      this.renderer.shadowMap.enabled = true
 
       // add the output of the renderer to the html element
-      this.$el.appendChild(this.webGLRenderer.domElement)
+      this.$el.appendChild(this.renderer.domElement)
     },
     initCamera() {
       // create a camera, which defines where we're looking at.
@@ -160,40 +152,11 @@ export default {
       texture.needsUpdate = true
       return texture
     },
-    render() {
+    animate() {
       this.stats.update()
       TWEEN.update()
-      requestAnimationFrame(this.render)
-      this.webGLRenderer.render(this.scene, this.camera)
-    },
-
-    initGui() {
-      // setup the control gui
-      this.controls = {
-        // we need the first child, since it's a multimaterial
-      }
-
-      // const datGui = new dat.GUI()
-    },
-    initStats() { // 初始化性能插件
-      this.stats = new Stats()
-
-      this.stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '20px'
-      this.stats.domElement.style.top = '87px'
-
-      this.$el.appendChild(this.stats.domElement)
-    },
-    onWindowResize() {
-      this.width = this.$el.clientWidth - 40
-      this.height = this.$el.clientHeight - 100
-      this.camera.aspect = this.width / this.height
-      this.camera.updateProjectionMatrix()
-
-      this.webGLRenderer.setSize(this.width, this.height)
+      requestAnimationFrame(this.animate)
+      this.renderer.render(this.scene, this.camera)
     }
   }
 }

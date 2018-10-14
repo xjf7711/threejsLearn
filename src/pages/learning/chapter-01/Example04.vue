@@ -6,9 +6,12 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
+// import * as Stats from 'stats.js'
+import stats from '@/pages/mixin/stats'
+import clearWebGLContext from '@/pages/mixin/clearWebGLContext'
 export default {
   name: 'Example0104',
+  mixins: [stats, clearWebGLContext],
   data() {
     return {
       width: 0,
@@ -17,19 +20,19 @@ export default {
       camera: null,
       renderer: null,
       cube: null,
-      stats: null,
+      // stats: null,
       step: 0
     }
   },
   mounted() {
     this.init()
+    console.log('this.$el is ', this.$el)
   },
   methods: {
     init() {
       // console.log('this.$el is ', this.$el)
       this.width = this.$el.clientWidth - 40
       this.height = this.$el.clientHeight - 100
-      this.stats = this.initStats()
 
       // create a scene, that will hold all our elements such as objects, cameras and lights.
       const scene = new THREE.Scene()
@@ -38,12 +41,12 @@ export default {
       const camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000)
       this.camera = camera
       // create a render and set the size
-      const renderer = new THREE.WebGLRenderer()
-      this.renderer = renderer
-      renderer.setClearColor(0xEEEEEE, 1.0)
+      this.renderer = new THREE.WebGLRenderer()
+      // this.renderer = renderer
+      this.renderer.setClearColor(0xEEEEEE, 1.0)
       // renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0))
-      renderer.setSize(this.width, this.height)
-      renderer.shadowMapEnabled = true
+      this.renderer.setSize(this.width, this.height)
+      this.renderer.shadowMap.enabled = true
 
       // create the ground plane
       const planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1)
@@ -104,27 +107,13 @@ export default {
       scene.add(spotLight)
 
       // add the output of the renderer to the html element
-      this.$el.appendChild(renderer.domElement)
+      this.$el.appendChild(this.renderer.domElement)
 
       // call the render function
       // const step = 0
-      this.renderScene()
+      this.animate()
     },
-    initStats() {
-      const stats = new Stats()
-
-      stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      stats.domElement.style.position = 'absolute'
-      stats.domElement.style.left = '0px'
-      stats.domElement.style.top = '0px'
-
-      this.$el.appendChild(stats.domElement)
-
-      return stats
-    },
-    renderScene() {
+    animate() {
       this.stats.update()
       // rotate the cube around its axes
       const cube = this.cube
@@ -137,10 +126,9 @@ export default {
       const sphere = this.sphere
       sphere.position.x = 20 + (10 * (Math.cos(this.step)))
       sphere.position.y = 2 + (10 * Math.abs(Math.sin(this.step)))
-
-      // render using requestAnimationFrame
-      requestAnimationFrame(this.renderScene)
       this.renderer.render(this.scene, this.camera)
+      // render using requestAnimationFrame
+      requestAnimationFrame(this.animate)
     }
   }
 }

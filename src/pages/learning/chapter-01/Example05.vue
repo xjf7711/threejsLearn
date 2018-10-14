@@ -6,10 +6,12 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
 import * as dat from 'dat.gui'
+import stats from '@/pages/mixin/stats'
+import clearWebGLContext from '@/pages/mixin/clearWebGLContext'
 export default {
   name: 'Example0105',
+  mixins: [stats, clearWebGLContext],
   data() {
     return {
       width: 0,
@@ -19,15 +21,10 @@ export default {
       renderer: null,
       controls: null,
       step: 0,
-      cube: null,
-      stats: null
+      cube: null
     }
   },
   mounted() {
-    this.controls = {
-      rotationSpeed: 0.02,
-      bouncingSpeed: 0.03
-    }
     this.init()
   },
   methods: {
@@ -35,7 +32,6 @@ export default {
       // console.log('this.$el is ', this.$el)
       this.width = this.$el.clientWidth - 40
       this.height = this.$el.clientHeight - 100
-      this.stats = this.initStats()
 
       // create a scene, that will hold all our elements such as objects, cameras and lights.
       const scene = new THREE.Scene()
@@ -115,26 +111,15 @@ export default {
       // call the render function
       // const step = 0
 
-      let gui = {}
-      gui = new dat.GUI()
+      this.controls = {
+        rotationSpeed: 0.02,
+        bouncingSpeed: 0.03
+      }
+      const gui = new dat.GUI()
       gui.add(this.controls, 'rotationSpeed', 0, 0.5)
       gui.add(this.controls, 'bouncingSpeed', 0, 0.5)
 
       this.render()
-    },
-    initStats() {
-      const stats = new Stats()
-
-      stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      stats.domElement.style.position = 'absolute'
-      stats.domElement.style.left = '0px'
-      stats.domElement.style.top = '0px'
-
-      this.$el.appendChild(stats.domElement)
-
-      return stats
     },
     render() {
       this.stats.update()
