@@ -204,8 +204,8 @@ export default {
       console.log('uri is ' + uri)
 
       loader.load(uri, (geometry, mat) => {
-        console.log('loader.load onload geometry is ', geometry)
-        console.log('loader.load mat is ', mat)
+        // console.log('loader.load onload geometry is ', geometry)
+        // console.log('loader.load mat is ', mat)
         this.mesh = new THREE.Mesh(geometry, mat[0])
         this.mesh.position.set(0, 1.8, 0)
         // this.mesh.scale.x = 10
