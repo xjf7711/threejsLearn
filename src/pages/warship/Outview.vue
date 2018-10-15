@@ -14,9 +14,10 @@ import Water from '@/assets/threejs/js/objects/Water.js'
 import stats from '../mixin/stats'
 import clearWebGLContext from '../mixin/clearWebGLContext'
 import windowResize from '../mixin/windowResize'
+// import animate from '../mixin/animate'
 // import Water from '@/assets/threejs/js/objects/Water2.js'
 export default {
-  name: 'Examples07',
+  name: 'Outview',
   mixins: [clearWebGLContext, stats, windowResize],
   data() {
     return {
@@ -30,7 +31,8 @@ export default {
       gui: null,
       stats: null,
       water: null,
-      sky: null
+      sky: null,
+      myReq: null
     }
   },
   mounted() {
@@ -43,6 +45,9 @@ export default {
     this.initGui()
     this.initModels()
     this.animate()
+  },
+  beforeDestroy() {
+    cancelAnimationFrame(this.myReq)
   },
   methods: {
     // 场景
@@ -212,15 +217,15 @@ export default {
       // ground.receiveShadow = true
 
       this.loadObj()
-      this.drawSky()
-      this.drawOcean()
-      this.updateSun()
+      // this.drawSky()
+      // this.drawOcean()
+      // this.updateSun()
     },
 
     animate() {
       this.stats.update()
-      this.water.material.uniforms.time.value += 1.0 / 60.0
-      requestAnimationFrame(this.animate)
+      // this.water.material.uniforms.time.value += 1.0 / 60.0
+      this.myReq = requestAnimationFrame(this.animate)
       this.renderer.render(this.scene, this.camera)
     },
     loadObj() {
@@ -310,7 +315,7 @@ export default {
         azimuth: 0.205
       }
 
-      var cubeCamera = new THREE.CubeCamera(1, 20000, 256)
+      const cubeCamera = new THREE.CubeCamera(1, 20000, 256)
       cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter
       var theta = Math.PI * (parameters.inclination - 0.5)
       var phi = 2 * Math.PI * (parameters.azimuth - 0.5)
