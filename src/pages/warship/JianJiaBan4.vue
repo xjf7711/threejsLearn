@@ -1,6 +1,6 @@
 <template>
   <div class="example">
-    <h2>舰甲板</h2>
+    <h2>舰甲板4</h2>
 
     <!--<canvas id="mainCanvas" :width="width" :height="height"></canvas>-->
   </div>
@@ -11,8 +11,10 @@ import * as THREE from 'three'
 import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
 import OrbitControls from 'threejs-orbit-controls'
+import clearWebGLContext from '../mixin/clearWebGLContext'
 export default {
-  name: 'Jianjiaban',
+  name: 'Jianjiaban4',
+  mixins: [clearWebGLContext],
   data() {
     return {
       width: 700,
@@ -40,7 +42,7 @@ export default {
     this.initHelper()
     this.initGui()
     this.initModels()
-    this.render()
+    this.animate()
     window.onresize = this.onWindowResize
   },
   methods: {
@@ -269,14 +271,14 @@ export default {
       })
     },
 
-    render() {
+    animate() {
       this.stats.update()
       // if (this.mesh) {
       //   this.mesh.rotation.y += 0.006
       // }
-      // render using requestAnimationFrame
-      requestAnimationFrame(this.render)
       this.renderer.render(this.scene, this.camera)
+      // render using requestAnimationFrame
+      requestAnimationFrame(this.animate)
     },
     // 初始化性能插件
 

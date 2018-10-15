@@ -1,6 +1,6 @@
 <template>
   <div class="example">
-    <h2>舰甲板</h2>
+    <h2>下甲板</h2>
 
     <!--<canvas id="mainCanvas" :width="width" :height="height"></canvas>-->
   </div>
@@ -8,15 +8,17 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
+import stats from '../mixin/stats'
 // import * as dat from 'dat.gui'
 import OrbitControls from 'threejs-orbit-controls'
+import clearWebGLContext from '../mixin/clearWebGLContext'
+import windowResize from '../mixin/windowResize'
+import animate from '../mixin/animate'
 export default {
   name: 'Jianjiaban',
+  mixins: [stats, clearWebGLContext, windowResize, animate],
   data() {
     return {
-      width: 700,
-      height: 500,
       scene: null,
       camera: null,
       renderer: null,
@@ -24,24 +26,18 @@ export default {
       // directionalLight: null,
       step: 0,
       rotation: 0,
-      gui: null,
-      stats: null
+      gui: null
     }
   },
   mounted() {
-    this.width = this.$el.clientWidth - 40
-    this.height = this.$el.clientHeight - 100
-    this.initStats()
     this.initScene()
     this.initCamera()
-    this.initLight()
     this.initRenderer()
+    this.initLight()
     this.initMouseControls()
     this.initHelper()
     this.initGui()
     this.initModels()
-    this.render()
-    window.onresize = this.onWindowResize
   },
   methods: {
     // 场景
@@ -69,6 +65,7 @@ export default {
       // 告诉渲染器需要阴影效果
       this.renderer.shadowMap.enabled = true
       this.$el.appendChild(this.renderer.domElement)
+      console.log('this.$el is ', this.$el)
     },
     initLight() {
       const ambientLigth = new THREE.AmbientLight(0x404040, 0, 5) // soft white light
@@ -267,36 +264,6 @@ export default {
       }, error => {
         console.log('error is ', error)
       })
-    },
-
-    render() {
-      this.stats.update()
-      // if (this.mesh) {
-      //   this.mesh.rotation.y += 0.006
-      // }
-      // render using requestAnimationFrame
-      requestAnimationFrame(this.render)
-      this.renderer.render(this.scene, this.camera)
-    },
-    // 初始化性能插件
-
-    initStats() {
-      this.stats = new Stats()
-      this.stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '20px'
-      this.stats.domElement.style.top = '87px'
-      this.$el.appendChild(this.stats.domElement)
-    },
-    // 窗口变动触发的函数
-    onWindowResize() {
-      this.width = this.$el.clientWidth - 40
-      this.height = this.$el.clientHeight - 100
-      this.camera.aspect = this.width / this.height
-      this.camera.updateProjectionMatrix()
-      this.renderer.setSize(this.width, this.height)
     }
   }
 }

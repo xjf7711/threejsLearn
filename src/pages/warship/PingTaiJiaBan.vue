@@ -1,6 +1,6 @@
 <template>
   <div class="example">
-    <h2>舰甲板</h2>
+    <h2>平台甲板</h2>
 
     <!--<canvas id="mainCanvas" :width="width" :height="height"></canvas>-->
   </div>
@@ -11,8 +11,10 @@ import * as THREE from 'three'
 import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
 import OrbitControls from 'threejs-orbit-controls'
+import clearWebGLContext from '../mixin/clearWebGLContext'
 export default {
   name: 'Jianjiaban',
+  mixin: [clearWebGLContext],
   data() {
     return {
       width: 700,

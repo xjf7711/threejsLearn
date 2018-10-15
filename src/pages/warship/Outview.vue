@@ -6,18 +6,20 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
+// import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
 import OrbitControls from 'threejs-orbit-controls'
 import Sky from '@/assets/threejs/js/objects/Sky.js'
 import Water from '@/assets/threejs/js/objects/Water.js'
+import stats from '../mixin/stats'
+import clearWebGLContext from '../mixin/clearWebGLContext'
+import windowResize from '../mixin/windowResize'
 // import Water from '@/assets/threejs/js/objects/Water2.js'
 export default {
   name: 'Examples07',
+  mixins: [clearWebGLContext, stats, windowResize],
   data() {
     return {
-      width: 700,
-      height: 500,
       scene: null,
       camera: null,
       renderer: null,
@@ -32,19 +34,15 @@ export default {
     }
   },
   mounted() {
-    this.width = this.$el.clientWidth - 40
-    this.height = this.$el.clientHeight - 100
-    this.initStats()
     this.initScene()
     this.initCamera()
     this.initLight()
     this.initRenderer()
-    this.initMouseControls()
+    this.initCameraControls()
     this.initHelper()
     this.initGui()
     this.initModels()
-    this.render()
-    window.onresize = this.onWindowResize
+    this.animate()
   },
   methods: {
     // 场景
@@ -114,7 +112,7 @@ export default {
       // const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10)
       // this.scene.add(hemiLightHelper)
     },
-    initMouseControls() {
+    initCameraControls() {
       // 用户交互插件 鼠标左键按住旋转，右键按住平移，滚轮缩放
       // 新建一个轨道控制器
       // 如果初始化时不传入第二个参数，orbitControl默认监听的是document，自然地整个文档范围内的所有相关事件都会被监听。
@@ -219,23 +217,11 @@ export default {
       this.updateSun()
     },
 
-    render() {
+    animate() {
       this.stats.update()
       this.water.material.uniforms.time.value += 1.0 / 60.0
-      requestAnimationFrame(this.render)
+      requestAnimationFrame(this.animate)
       this.renderer.render(this.scene, this.camera)
-    },
-    // 初始化性能插件
-
-    initStats() {
-      this.stats = new Stats()
-      this.stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '20px'
-      this.stats.domElement.style.top = '87px'
-      this.$el.appendChild(this.stats.domElement)
     },
     loadObj() {
       const loader = new THREE.JSONLoader()
@@ -337,14 +323,6 @@ export default {
       this.water.material.uniforms.sunDirection.value.copy(this.directionalLight.position).normalize()
 
       cubeCamera.update(this.renderer, this.scene)
-    },
-    // 窗口变动触发的函数
-    onWindowResize() {
-      this.width = this.$el.clientWidth - 40
-      this.height = this.$el.clientHeight - 100
-      this.camera.aspect = this.width / this.height
-      this.camera.updateProjectionMatrix()
-      this.renderer.setSize(this.width, this.height)
     }
   }
 }
