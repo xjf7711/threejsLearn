@@ -1,0 +1,78 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<title>3D room presentation</title>
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.css" />
+	<link href="css/3d.css" rel="stylesheet" type='text/css'/>
+</head>
+<body>
+ 	<div id="top_frame"></div>
+	<div id="tabbar_right">
+		<div id="tab01"><div class="tabLink" onclick="warningon();"></div></div>
+		<div id="tab02"><div class="tabLink" onclick="warningoff();"></div></div>
+		<div id="tab03"><div class="tabLink" onclick="warningon();"></div></div>
+		<div id="tab04"><div class="tabLink" onclick="warningoff();"></div></div>
+		<div id="tab05"><div class="tabLink" onclick=""></div></div>
+	</div>
+	<div id="bottom_legend">3D机房动画演示系统 BETA 1.0
+	</div>
+
+	<div id="container"></div>
+	<div id="loadStatus" style="display:none">
+	Loading scene...
+	</div>
+    <script src="libs/jquery-1.9.1.min.js"></script>
+    <script src="libs/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="libs/vizi.js"></script>
+	<script src="src/3d.js"></script>
+	<script>
+   	var threedroom = null
+
+$(document).ready(function() {
+  var container = document.getElementById('container')
+  threedroom = new ThreeDroom({ container: container,
+    loadCallback: onLoadComplete,
+    loadProgressCallback: onLoadProgress,
+    mouseOverCallback: onMouseOver,
+    mouseOutCallback: onMouseOut,
+			    mouseUpCallback: onMouseUp
+			 })
+  loadStatus.style.display = 'block'
+  threedroom.go()
+}
+)
+
+function onLoadComplete(loadTime) {
+  // Hide the loader bar
+  loadStatus.style.display = 'none'
+  console.log('Loaded ' + loadTime.toFixed(2) + ' seconds.')
+}
+
+function onLoadProgress(percentProgress) {
+  loadStatus.innerHTML = 'Loading scene... ' + percentProgress.toFixed(0) + ' %'
+}
+
+function warningon() {
+  threedroom.warningon(/^bottom_Mesh(.*)/)
+}
+
+function warningoff() {
+  threedroom.warningoff(/^bottom_Mesh(.*)/)
+}
+
+function onMouseOver(what, event) {
+  console.log('Mouse over')
+}
+
+function onMouseOut(what, event) {
+  console.log('Mouse out')
+}
+function onMouseUp(what, event) {
+  console.log('Mouse up')
+  alert('�����������Ӧ�¼���')
+}
+	</script>
+
+</body>
+</html>
