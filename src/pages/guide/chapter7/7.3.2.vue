@@ -11,15 +11,18 @@ import * as THREE from 'three'
 // import OBJLoader from '@/assets/threejs/js/loaders/OBJLoader'
 // import MTLLoader from '@/assets/threejs/js/loaders/MTLLoader'
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
+import stats from '../../mixin/stats'
+import animate from '../../mixin/animate'
 export default {
   name: 'Teapot732',
+  mixins: [stats, animate],
   data() {
     return {
       msg: '例 7.3.2',
       width: 700,
       height: 500,
 
-      render: null,
+      renderer: null,
       scene: null,
       camera: null,
       mesh: null,
@@ -49,19 +52,19 @@ export default {
       this.camera = new THREE.OrthographicCamera(-5, 5, 3.75, -3.75, 0.1, 100)
       this.camera.position.set(20, 5, 15)
       this.camera.lookAt(new THREE.Vector3(0, 2, -1))
-      this.scene.add(this.camera)
+      // this.scene.add(this.camera)
 
       // material loader
       const mtlLoader = new MTLLoader()
       mtlLoader.setPath('static/threejs/guide/lib/')
-      mtlLoader.load('y5.mtl', materials => {
+      mtlLoader.load('port.mtl', materials => {
         materials.preload()
 
         // model loader
         const objLoader = new OBJLoader()
         objLoader.setMaterials(materials)
         objLoader.setPath('static/threejs/guide/lib/')
-        objLoader.load('y5.obj', object => {
+        objLoader.load('port.obj', object => {
           object.position.y = -95
           // if has object, add to scene
           if (object.children.length > 0) {
@@ -74,11 +77,11 @@ export default {
       light.position.set(20, 10, 5)
       this.scene.add(light)
 
-      this.id = setInterval(this.draw, 20)
-    },
-    draw() {
-      this.renderer.render(this.scene, this.camera)
+      // this.id = setInterval(this.draw, 20)
     }
+    // draw() {
+    //   this.renderer.render(this.scene, this.camera)
+    // }
   }
 }
 </script>

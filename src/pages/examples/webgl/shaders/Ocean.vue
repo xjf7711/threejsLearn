@@ -6,17 +6,20 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
-// import * as dat from 'dat.gui'
+// import * as Stats from 'stats.js'
+import * as dat from 'dat.gui'
 import OrbitControls from 'threejs-orbit-controls'
 import Sky from '@/assets/threejs/js/objects/Sky.js'
 import Water from '@/assets/threejs/js/objects/Water.js'
+import stats from '../../../mixin/stats'
+import animate from '../../../mixin/animate'
+import clearWebGLContext from '../../../mixin/clearWebGLContext'
+import windowResize from '../../../mixin/windowResize'
 export default {
   name: 'Ocean',
+  mixins: [stats, animate, clearWebGLContext, windowResize],
   data() {
     return {
-      width: 700,
-      height: 500,
       scene: null,
       camera: null,
       renderer: null,
@@ -27,23 +30,31 @@ export default {
       gui: null,
       stats: null,
       water: null,
-      sky: null
+      sky: null,
+      cubeCamera: null,
+      sphere: null,
+      parameters: null
     }
   },
-  mounted() {
-    this.width = this.$el.clientWidth - 40
-    this.height = this.$el.clientHeight - 100
-    this.initStats()
+  created() {
+    this.parameters = {
+      distance: 400,
+      inclination: 0.49,
+      azimuth: 0.205
+    }
+    this.cubeCamera = new THREE.CubeCamera(1, 20000, 256)
+    this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter
     this.initScene()
-    this.initCamera()
     this.initLight()
+    this.initHelper()
+    this.initModels()
+    this.initGui()
+  },
+  mounted() {
+    this.initCamera()
     this.initRenderer()
     this.initCameraControls()
-    this.initHelper()
-    this.initGui()
-    this.initModels()
-    this.render()
-    window.onresize = this.onWindowResize
+    this.updateSun()
   },
   methods: {
     // 场景
@@ -59,7 +70,7 @@ export default {
         10000
       )
 
-      this.camera.position.set(300, 400, 500)
+      this.camera.position.set(30, 30, 100)
       this.camera.lookAt(new THREE.Vector3(0, 0, 0))
     },
     // 渲染器
@@ -155,35 +166,67 @@ export default {
       // this.scene.add(gridHelper)
     },
     initGui() {
-      // this.controls = {
-      //   // we need the first child, since it's a multimaterial
-      // }
+      const gui = new dat.GUI()
+      gui.domElement.style.position = 'absolute'
+      gui.domElement.style.right = '7px'
+      gui.domElement.style.top = '137px'
+
+      const skyFolder = gui.addFolder('Sky')
+      skyFolder.add(this.parameters, 'inclination', 0, 0.5, 0.0001).onChange(this.updateSun)
+      skyFolder.add(this.parameters, 'azimuth', 0, 1, 0.0001).onChange(this.updateSun)
+      skyFolder.open()
+
+      const uniforms = this.water.material.uniforms
       //
-      // this.gui = new dat.GUI()
+      const waterFolder = gui.addFolder('Water')
+      waterFolder.add(uniforms.distortionScale, 'value', 0, 8, 0.1).name('distortionScale')
+      waterFolder.add(uniforms.size, 'value', 0.1, 10, 0.1).name('size')
+      waterFolder.add(uniforms.alpha, 'value', 0.9, 1, 0.001).name('alpha')
+      waterFolder.open()
     },
     initModels() {
       this.drawSky()
       this.drawOcean()
-      this.updateSun()
+      this.drawSphere()
     },
-
     render() {
-      this.stats.update()
+      const time = performance.now() * 0.001
+
+      this.sphere.position.y = Math.sin(time) * 20 + 5
+      this.sphere.rotation.x = time * 0.5
+      this.sphere.rotation.z = time * 0.51
+
       this.water.material.uniforms.time.value += 1.0 / 60.0
-      requestAnimationFrame(this.render)
-      this.renderer.render(this.scene, this.camera)
+      this.renderer && this.renderer.render(this.scene, this.camera)
     },
-    // 初始化性能插件
+    drawSphere() {
+      //
+      const geometry = new THREE.IcosahedronBufferGeometry(20, 1)
+      const count = geometry.attributes.position.count
 
-    initStats() {
-      this.stats = new Stats()
-      this.stats.setMode(0) // 0: fps, 1: ms
+      const colors = []
+      const color = new THREE.Color()
 
-      // Align top-left
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '20px'
-      this.stats.domElement.style.top = '87px'
-      this.$el.appendChild(this.stats.domElement)
+      for (let i = 0; i < count; i += 3) {
+        color.setHex(Math.random() * 0xffffff)
+
+        colors.push(color.r, color.g, color.b)
+        colors.push(color.r, color.g, color.b)
+        colors.push(color.r, color.g, color.b)
+      }
+
+      geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+
+      const material = new THREE.MeshStandardMaterial({
+        vertexColors: THREE.VertexColors,
+        roughness: 0.0,
+        flatShading: true,
+        envMap: this.cubeCamera.renderTarget.texture,
+        side: THREE.DoubleSide
+      })
+
+      this.sphere = new THREE.Mesh(geometry, material)
+      this.scene.add(this.sphere)
     },
     drawSky() {
       // Skybox
@@ -211,7 +254,7 @@ export default {
           fog: this.scene.fog !== undefined
         }
       )
-      this.water.position.y = 8
+      // this.water.position.y = 8
       this.water.rotation.x = -Math.PI / 2
 
       this.scene.add(this.water)
@@ -238,33 +281,17 @@ export default {
       this.scene.add(water)
     },
     updateSun() {
-      var parameters = {
-        distance: 400,
-        inclination: 0.49,
-        azimuth: 0.205
-      }
+      const theta = Math.PI * (this.parameters.inclination - 0.5)
+      const phi = 2 * Math.PI * (this.parameters.azimuth - 0.5)
 
-      var cubeCamera = new THREE.CubeCamera(1, 20000, 256)
-      cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter
-      var theta = Math.PI * (parameters.inclination - 0.5)
-      var phi = 2 * Math.PI * (parameters.azimuth - 0.5)
-
-      this.directionalLight.position.x = parameters.distance * Math.cos(phi)
-      this.directionalLight.position.y = parameters.distance * Math.sin(phi) * Math.sin(theta)
-      this.directionalLight.position.z = parameters.distance * Math.sin(phi) * Math.cos(theta)
+      this.directionalLight.position.x = this.parameters.distance * Math.cos(phi)
+      this.directionalLight.position.y = this.parameters.distance * Math.sin(phi) * Math.sin(theta)
+      this.directionalLight.position.z = this.parameters.distance * Math.sin(phi) * Math.cos(theta)
 
       this.sky.material.uniforms.sunPosition.value = this.directionalLight.position.copy(this.directionalLight.position)
       this.water.material.uniforms.sunDirection.value.copy(this.directionalLight.position).normalize()
 
-      cubeCamera.update(this.renderer, this.scene)
-    },
-    // 窗口变动触发的函数
-    onWindowResize() {
-      this.width = this.$el.clientWidth - 40
-      this.height = this.$el.clientHeight - 100
-      this.camera.aspect = this.width / this.height
-      this.camera.updateProjectionMatrix()
-      this.renderer.setSize(this.width, this.height)
+      this.cubeCamera.update(this.renderer, this.scene)
     }
   }
 }

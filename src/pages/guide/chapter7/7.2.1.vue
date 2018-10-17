@@ -12,15 +12,18 @@ import { OBJLoader } from 'three-obj-mtl-loader'
 // import OBJLoader from 'static/threejs/examples/js/loaders/OBJLoader.js'
 // import 'static/threejs/examples/js/loaders/OBJLoader.js'
 // import * as Stats from 'static/threejs/guide/lib/stats.js'
+import stats from '../../mixin/stats'
+import animate from '../../mixin/animate'
 export default {
   name: 'Teapot721',
+  mixins: [stats, animate],
   data() {
     return {
       title: '例 7.2.1',
       width: 700,
       height: 500,
 
-      render: null,
+      renderer: null,
       scene: null,
       camera: null,
       mesh: null,
@@ -41,14 +44,12 @@ export default {
       this.camera = new THREE.OrthographicCamera(-5, 5, 3.75, -3.75, 0.1, 1000)
       this.camera.position.set(5, 5, 5)
       this.camera.lookAt(new THREE.Vector3(0, 2, 0))
-      this.scene.add(this.camera)
+      // this.scene.add(this.camera)
 
       // instantiate a loader
       const loader = new OBJLoader()
-      // //LeePerrySmith
-      const url = 'static/threejs/guide/lib/y5.obj'
-      // const url = 'static/threejs/guide/lib/geometries.obj'
-      // const url = '/static/threejs/examples/obj/cubes/cubes.obj'
+      const url = 'static/threejs/guide/lib/port.obj'
+
       // load a resource
       loader.load(
         // resource URL
@@ -79,10 +80,10 @@ export default {
       light.position.set(20, 10, 5)
       this.scene.add(light)
 
-      this.id = setInterval(this.draw, 500)
+      // this.id = setInterval(this.draw, 500)
     },
-    draw() {
-      this.renderer.render(this.scene, this.camera)
+    render() {
+      this.renderer && this.renderer.render(this.scene, this.camera)
 
       this.mesh.rotation.y += 0.01
       if (this.mesh.rotation.y > Math.PI * 2) {

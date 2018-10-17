@@ -10,15 +10,18 @@ import * as THREE from 'three'
 // import { OBJLoader } from 'static/threejs/examples/js/loaders.js' // 有问题
 // import OBJLoader from '@/assets/threejs/js/loaders/OBJLoader'
 import { OBJLoader } from 'three-obj-mtl-loader'
+import stats from '../../mixin/stats'
+import animate from '../../mixin/animate'
 export default {
   name: 'Teapot731',
+  mixins: [stats, animate],
   data() {
     return {
       msg: '例 7.3.1',
       width: 700,
       height: 500,
 
-      render: null,
+      renderer: null,
       scene: null,
       camera: null,
       mesh: null,
@@ -70,10 +73,7 @@ export default {
       light.position.set(20, 10, 5)
       this.scene.add(light)
 
-      this.id = setInterval(this.draw, 20)
-    },
-    draw() {
-      this.renderer.render(this.scene, this.camera)
+      // this.id = setInterval(this.draw, 20)
     }
   }
 }

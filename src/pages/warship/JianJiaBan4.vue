@@ -8,17 +8,17 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
 import OrbitControls from 'threejs-orbit-controls'
 import clearWebGLContext from '../mixin/clearWebGLContext'
+import windowResize from '../mixin/windowResize'
+import stats from '../mixin/stats'
+import animate from '../mixin/animate'
 export default {
   name: 'Jianjiaban4',
-  mixins: [clearWebGLContext],
+  mixins: [stats, animate, clearWebGLContext, windowResize],
   data() {
     return {
-      width: 700,
-      height: 500,
       scene: null,
       camera: null,
       renderer: null,
@@ -31,8 +31,6 @@ export default {
     }
   },
   mounted() {
-    this.width = this.$el.clientWidth - 40
-    this.height = this.$el.clientHeight - 100
     this.initStats()
     this.initScene()
     this.initCamera()
@@ -42,8 +40,6 @@ export default {
     this.initHelper()
     this.initGui()
     this.initModels()
-    this.animate()
-    window.onresize = this.onWindowResize
   },
   methods: {
     // 场景
@@ -201,54 +197,6 @@ export default {
       // this.gui = new dat.GUI()
     },
     initModels() {
-      // const mtlLoader = new MTLLoader()
-      // mtlLoader.setPath('static/threejs/models/warship/') // 路径
-      //
-      // mtlLoader.load(
-      //   'jianjiaBan4.mtl',
-      //   mtl => {
-      //     mtl.preload() // 预加载
-      //     console.log('mtl is ', mtl)
-      //     const objLoader = new OBJLoader()
-      //     objLoader.setMaterials(mtl) // 有问题
-      //     objLoader.setPath('static/threejs/models/warship/')
-      //     objLoader.load('jianjiaBan4.obj', object => {
-      //       console.log('object is ', object)
-      //       const mesh = object.children[0]
-      //       // mesh.material.opacity = 0.9
-      //       // mesh.material.transparent = true
-      //       // mesh.material.depthTest = false
-      //       mesh.material.side = THREE.DoubleSide
-      //
-      //       // configure the wings
-      //       // const wing2 = object.children[5]
-      //       // const wing1 = object.children[4]
-      //       //
-      //       // wing1.material.opacity = 0.6
-      //       // wing1.material.transparent = true
-      //       // wing1.material.depthTest = false
-      //       // wing1.material.side = THREE.DoubleSide
-      //       //
-      //       // wing2.material.opacity = 0.6
-      //       // wing2.material.depthTest = false
-      //       // wing2.material.transparent = true
-      //       // wing2.material.side = THREE.DoubleSide
-      //
-      //       // object.scale.set(2, 2, 2)
-      //       object.position.set(20, 10, 8)
-      //       this.mesh = object
-      //       this.scene.add(object)
-      //     })
-      //   },
-      //   (xhr) => {
-      //     if (xhr.lengthComputable) {
-      //       const percentComplete = xhr.loaded / xhr.total * 100
-      //       console.log(Math.round(percentComplete, 2) + '% downloaded')
-      //     }
-      //   },
-      //   error => {
-      //     console.log('error is ', error)
-      //   })
       const loader = new THREE.JSONLoader()
       // const uri = 'static/threejs/models/dimianA.json'
       const uri = 'static/threejs/models/warship/jianjiaban4.json'
@@ -269,36 +217,6 @@ export default {
       }, error => {
         console.log('error is ', error)
       })
-    },
-
-    animate() {
-      this.stats.update()
-      // if (this.mesh) {
-      //   this.mesh.rotation.y += 0.006
-      // }
-      this.renderer.render(this.scene, this.camera)
-      // render using requestAnimationFrame
-      requestAnimationFrame(this.animate)
-    },
-    // 初始化性能插件
-
-    initStats() {
-      this.stats = new Stats()
-      this.stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '20px'
-      this.stats.domElement.style.top = '87px'
-      this.$el.appendChild(this.stats.domElement)
-    },
-    // 窗口变动触发的函数
-    onWindowResize() {
-      this.width = this.$el.clientWidth - 40
-      this.height = this.$el.clientHeight - 100
-      this.camera.aspect = this.width / this.height
-      this.camera.updateProjectionMatrix()
-      this.renderer.setSize(this.width, this.height)
     }
   }
 }
