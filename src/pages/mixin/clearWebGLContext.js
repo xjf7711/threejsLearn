@@ -17,6 +17,6 @@ export default {
   },
   deactivated() {
     console.log('deactivated begins. ')
-    this.renderer.domElement = null
+    // this.renderer.domElement = null
   }
 }
