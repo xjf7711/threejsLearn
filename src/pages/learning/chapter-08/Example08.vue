@@ -8,7 +8,8 @@
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
-import ColladaLoader from '@/assets/threejs/js/loaders/ColladaLoader'
+// import ColladaLoader from '@/assets/threejs/js/loaders/ColladaLoader'
+import ColladaLoader from 'three-collada-loader'
 import OrbitControls from 'threejs-orbit-controls'
 export default {
   name: 'Example08',
@@ -176,7 +177,7 @@ export default {
     initModels() {
       const loader = new ColladaLoader()
       // loader.setPath('static/threejs/models/dae/') // 路径 无效
-      const uri = 'static/threejs/models/dae/Truck_dae.dae'
+      const uri = 'static/threejs/learning/assets/models/dae/Truck_dae.dae'
       // const uri = 'static/threejs/models/dimaianA.dae'
       // const uri = 'static/threejs/models/dae/zx503.dae'
       loader.load(uri, result => {

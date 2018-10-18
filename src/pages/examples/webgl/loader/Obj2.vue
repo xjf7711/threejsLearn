@@ -15,8 +15,8 @@
 <script>
 import * as THREE from 'three'
 // import Detector from '@/assets/threejs/Detector'
-// import TrackballControls from '@/assets/threejs/js/controls/TrackballControls.js'
-import TrackballControls from 'three-trackballcontrols'
+import TrackballControls from '@/assets/threejs/js/controls/TrackballControls.js'
+// import TrackballControls from 'three-trackballcontrols'
 // import MTLLoader from '@/assets/threejs/js/loaders/MTLLoader.js'
 // import * as dat from 'dat.gui'
 import LoaderSupport from '@/assets/threejs/js/loaders/LoaderSupport.js'

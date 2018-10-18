@@ -50,14 +50,14 @@ class Fbx {
   }
   initCamera() {
     console.log('initCamera begins.')
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 2000)
+    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 12000)
     this.camera.position.set(100, 200, 300)
   }
   initCamControls() {
     console.log('initCamControls begins.')
     this.controls = new OrbitControls(this.camera)
-    this.controls.target.set(0, 100, 0)
-    this.controls.update()
+    this.controls.target.set(0, 10, 0)
+    // this.controls.update()
   }
   initScene() {
     console.log('initScene begins.')

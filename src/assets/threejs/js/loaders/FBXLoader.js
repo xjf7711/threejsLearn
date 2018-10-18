@@ -21,8 +21,8 @@
 import * as THREE from 'three'
 import TGALoader from './TGALoader'
 import NURBSCurve from '../curves/NURBSCurve'
-import Zlib from '@/assets/threejs/js/libs/inflate.min.js'
-console.log('Zlib.Inflate is ', Zlib.Inflate)
+// import Zlib from '@/assets/threejs/js/libs/inflate.min.js'
+// console.log('Zlib.Inflate is ', Zlib.Inflate)
 const FBXLoader = ( function () {
 // THREE.FBXLoader = ( function () {
 

@@ -1,14 +1,7 @@
-<template>
-  <div class="example">
-    <h2>Ocean</h2>
-  </div>
-</template>
-
-<script>
 import * as THREE from 'three'
 import Sky from '@/assets/threejs/js/objects/Sky.js'
 import Water from '@/assets/threejs/js/objects/Water.js'
-import mixin from '../../../mixin/index'
+import mixin from './index'
 export default {
   name: 'Ocean',
   mixins: [mixin],
@@ -175,13 +168,3 @@ export default {
     }
   }
 }
-</script>
-
-<style scoped>
-  .example {
-    padding: 20px;
-    background-color: #eeeeee;
-    width: 100%;
-    height: 900px;
-  }
-</style>

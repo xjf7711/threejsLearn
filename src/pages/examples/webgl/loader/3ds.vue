@@ -10,8 +10,8 @@
 
 <script>
 import * as THREE from 'three'
-// import TrackballControls from '@/assets/threejs/js/controls/TrackballControls.js'
-import TrackballControls from 'three-trackballcontrols'
+import TrackballControls from '@/assets/threejs/js/controls/TrackballControls.js'
+// import TrackballControls from 'three-trackballcontrols'
 import TDSLoader from '@/assets/threejs/js/loaders/TDSLoader.js'
 
 //  "js/controls/TrackballControls.js"

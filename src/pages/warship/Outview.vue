@@ -6,190 +6,53 @@
 
 <script>
 import * as THREE from 'three'
-// import * as Stats from 'stats.js'
-// import * as dat from 'dat.gui'
-import OrbitControls from 'threejs-orbit-controls'
 import Sky from '@/assets/threejs/js/objects/Sky.js'
 import Water from '@/assets/threejs/js/objects/Water.js'
-import stats from '../mixin/stats'
-import clearWebGLContext from '../mixin/clearWebGLContext'
-import windowResize from '../mixin/windowResize'
-// import animate from '../mixin/animate'
-// import Water from '@/assets/threejs/js/objects/Water2.js'
+import mixin from '../mixin/index'
+import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
+import ColladaLoader from 'three-collada-loader'
+import GLTFLoader from 'three-gltf-loader'
 export default {
-  name: 'Outview',
-  mixins: [clearWebGLContext, stats, windowResize],
+  name: 'Ocean',
+  mixins: [mixin],
   data() {
     return {
-      scene: null,
-      camera: null,
-      renderer: null,
-      cameraControls: null,
       directionalLight: null,
       step: 0,
       rotation: 0,
-      gui: null,
-      stats: null,
       water: null,
       sky: null,
-      myReq: null
+      cubeCamera: null,
+      sphere: null,
+      parameters: null
     }
   },
-  mounted() {
-    this.initScene()
-    this.initCamera()
-    this.initLight()
-    this.initRenderer()
-    this.initCameraControls()
-    this.initHelper()
-    this.initGui()
-    this.initModels()
-    this.animate()
+  created() {
+    this.parameters = {
+      distance: 400,
+      inclination: 0.49,
+      azimuth: 0.205
+    }
+    this.cubeCamera = new THREE.CubeCamera(1, 20000, 256)
+    this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter
   },
-  beforeDestroy() {
-    cancelAnimationFrame(this.myReq)
+  mounted() {
+    this.updateSun()
   },
   methods: {
-    // 场景
-    initScene() {
-      this.scene = new THREE.Scene()
-      // this.scene.fog = new THREE.Fog(0xaaaaaa, 0.010, 200)
-    },
-    // 相机
-
-    initCamera() {
-      this.camera = new THREE.PerspectiveCamera(
-        45,
-        this.width / this.height,
-        1,
-        10000
-      )
-
+    setCamera() {
       this.camera.position.set(300, 400, 500)
-      this.camera.lookAt(new THREE.Vector3(0, 0, 0))
     },
-    // 渲染器
-    initRenderer() {
-      this.renderer = new THREE.WebGLRenderer()
-      this.renderer.setClearColor(0xaaaaff, 1.0)
-      this.renderer.setSize(this.width, this.height)
-      // 告诉渲染器需要阴影效果
-      this.renderer.shadowMap.enabled = true
-      this.renderer.shadowMap.type = THREE.PCFShadowMap
-      this.$el.appendChild(this.renderer.domElement)
-    },
-    initLight() {
-      const ambientLigth = new THREE.AmbientLight(0x404040, 0, 5) // soft white light
-      this.scene.add(ambientLigth)
-      // white spotlight shining from the side, casting a shadow
-      // const spotLight = new THREE.SpotLight(0xffffff)
-      // spotLight.position.set(0, 20, 0)
-      //
-      // spotLight.castShadow = true
-      // //
-      // // spotLight.shadow.mapSize.width = 1024
-      // // spotLight.shadow.mapSize.height = 1024
-      // //
-      // spotLight.shadow.camera.near = 500
-      // spotLight.shadow.camera.far = 4000
-      // spotLight.shadow.camera.fov = 30
-      //
-      // this.scene.add(spotLight)
-
-      // add pointlight for the shadows
-      // const pointLight = new THREE.PointLight(0xffffff, 0.8)
-      // // pointLight.position.set(0, 14, 0)
-      // this.camera.add(pointLight)
-      // this.scene.add(pointLight)
+    setLight() {
       this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-      // this.directionalLight.position.set(-50, 50, -50)
       this.scene.add(this.directionalLight)
-      // const hemiLight = new THREE.HemisphereLight(0xffffFF, 0x080820, 1)
-      // hemiLight.position.set(0, 500, 0)
-      // this.scene.add(hemiLight)
-      // const hemiLight = new THREE.HemisphereLight(0x0000ff, 0x00ff00, 0.6)
-      // const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6)
-      // hemiLight.color.setHSL(0.6, 1, 0.6)
-      // hemiLight.groundColor.setHSL(0.095, 1, 0.75)
-      // hemiLight.position.set(0, 200, 0)
-      // this.scene.add(hemiLight)
-
-      // const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10)
-      // this.scene.add(hemiLightHelper)
+      const hemiLight = new THREE.HemisphereLight(0xffffFF, 0x080820, 1)
+      hemiLight.position.set(0, 500, 0)
+      this.scene.add(hemiLight)
     },
-    initCameraControls() {
-      // 用户交互插件 鼠标左键按住旋转，右键按住平移，滚轮缩放
-      // 新建一个轨道控制器
-      // 如果初始化时不传入第二个参数，orbitControl默认监听的是document，自然地整个文档范围内的所有相关事件都会被监听。
-      // 相应的，解决方法自然是把场景所在的canvas作为第二个参数传进来
-      this.cameraControls = new OrbitControls(this.camera, this.renderer.domElement)
-
-      // this.cameraControls.addEventListener('change', this.updateControls)
-
-      // Set to false to disable this control
-      // 鼠标控制是否可用
-      this.cameraControls.enabled = true
-
-      // "target" sets the location of focus, where the object orbits around
-      // 聚焦坐标
-      // this.cameraControls.target = new THREE.Vector3() // 控制焦点
-      this.cameraControls.target.set(0, 10, 0)
-      this.camera.lookAt(this.cameraControls.target)
-      // How far you can dolly in and out ( PerspectiveCamera only )
-      // 最大最小相机移动距离(景深相机)
-      this.cameraControls.minDistance = 80
-      this.cameraControls.maxDistance = 1800
-      // How far you can orbit vertically, upper and lower limits.
-      // Range is 0 to Math.PI radians.
-      // 最大仰视角和俯视角
-      this.cameraControls.minPolarAngle = 0.1 * Math.PI // radians
-      this.cameraControls.maxPolarAngle = 0.49 * Math.PI // radians
-      // How far you can orbit horizontally, upper and lower limits.
-      // If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
-      // 水平方向视角限制
-      this.cameraControls.minAzimuthAngle = -1.95 * Math.PI // -Infinity // radians
-      this.cameraControls.maxAzimuthAngle = 1.95 * Math.PI // Infinity // radians
-
-      // Set to true to enable damping (inertia)
-      // If damping is enabled, you must call controls.update() in your animation loop
-      // 惯性滑动，滑动大小默认0.25
-      // 使动画循环使用时阻尼或自转 意思是否有惯性
-      this.cameraControls.enableDamping = true
-      // 动态阻尼系数 就是鼠标拖拽旋转灵敏度
-      this.cameraControls.dampingFactor = 0.25
-
-      // This option actually enables dollying in and out; left as "zoom" for backwards compatibility.
-      // Set to false to disable zooming
-      // 滚轮是否可控制zoom，zoom速度默认1
-      this.cameraControls.enableZoom = true
-      this.cameraControls.zoomSpeed = 1.0
-
-      // Set to false to disable rotating
-      // 是否可旋转，旋转速度
-      this.cameraControls.enableRotate = true
-      this.cameraControls.rotateSpeed = 1.0
-
-      // Set to false to disable panning
-      // 是否可平移，默认移动速度为7px
-      this.cameraControls.enablePan = true
-      this.cameraControls.keyPanSpeed = 0.2	// pixels moved per arrow key push
-
-      // Set to true to automatically rotate around the target
-      // If auto-rotate is enabled, you must call controls.update() in your animation loop
-      // 是否自动旋转，自动旋转速度。默认每秒30圈
-      this.cameraControls.autoRotate = false
-      this.cameraControls.autoRotateSpeed = 3.0 // 30 seconds per round when fps is 60
-
-      // Set to false to disable use of the keys
-      // 是否能使用键盘
-      this.cameraControls.enableKeys = true
-
-      // The four arrow keys
-      // 默认键盘控制上下左右的键
-      this.cameraControls.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 }
-      // Mouse buttons
-      // 鼠标点击按钮
-      // this.cameraControls.mouseButtons = { ORBIT: THREE.MOUSE.LEFT, ZOOM: THREE.MOUSE.MIDDLE, PAN: THREE.MOUSE.RIGHT }
+    setCameraControls() {
+      this.cameraControls.minDistance = 10
+      this.cameraControls.maxDistance = 2000
     },
     initHelper() {
       const axesHelper = new THREE.AxesHelper(500)
@@ -197,40 +60,152 @@ export default {
       // const gridHelper = new THREE.GridHelper(1000, 20)
       // this.scene.add(gridHelper)
     },
-    initGui() {
-      // this.controls = {
-      //   // we need the first child, since it's a multimaterial
-      // }
+    setGui() {
+      const skyFolder = this.gui.addFolder('Sky')
+      skyFolder.add(this.parameters, 'inclination', 0, 0.5, 0.0001).onChange(this.updateSun)
+      skyFolder.add(this.parameters, 'azimuth', 0, 1, 0.0001).onChange(this.updateSun)
+      skyFolder.open()
+
+      const uniforms = this.water.material.uniforms
       //
-      // this.gui = new dat.GUI()
+      const waterFolder = this.gui.addFolder('Water')
+      waterFolder.add(uniforms.distortionScale, 'value', 0, 8, 0.1).name('distortionScale')
+      waterFolder.add(uniforms.size, 'value', 0.1, 10, 0.1).name('size')
+      waterFolder.add(uniforms.alpha, 'value', 0.9, 1, 0.001).name('alpha')
+      waterFolder.open()
     },
     initModels() {
-      // GROUND
-      // const groundGeo = new THREE.PlaneBufferGeometry(10000, 10000)
-      // const groundMat = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0x050505 })
-      // groundMat.color.setHSL(0.095, 1, 0.75)
-      //
-      // const ground = new THREE.Mesh(groundGeo, groundMat)
-      // ground.rotation.x = -Math.PI / 2
-      // ground.position.y = 3
-      // this.scene.add(ground)
-      // ground.receiveShadow = true
-
-      this.loadObj()
-      // this.drawSky()
-      // this.drawOcean()
-      // this.updateSun()
+      this.gltfLoad()
+      // this.daeLoad()
+      // this.objLoad()
+      // this.jsonLoad()
+      this.drawSky()
+      this.drawOcean()
+      // this.drawSphere()
     },
+    render() {
+      const time = performance.now() * 0.001
+      // 异步加载，需做判断
+      if (this.sphere) this.sphere.position.y = Math.sin(time) * 20 + 5
+      if (this.sphere) this.sphere.rotation.x = time * 0.5
+      if (this.sphere) this.sphere.rotation.z = time * 0.51
 
-    animate() {
-      this.stats.update()
-      // this.water.material.uniforms.time.value += 1.0 / 60.0
-      this.myReq = requestAnimationFrame(this.animate)
-      this.renderer.render(this.scene, this.camera)
+      this.water.material.uniforms.time.value += 1.0 / 60.0
+      this.renderer && this.renderer.render(this.scene, this.camera)
     },
-    loadObj() {
+    gltfLoad() {
+      const that = this
+      // model
+      const loader = new GLTFLoader()
+      // console.log('loader is ', loader)
+      const uri = 'static/threejs/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf'
+      loader.load(uri, function(gltf) {
+        console.log('gltf is ', gltf)
+        gltf.scene.traverse(function(child) {
+          console.log('child is ', child)
+          if (child.isMesh) {
+            console.log('child.material is ', child.material)
+            child.material.envMap = that.envMap
+          }
+        })
+        // gltf.scene.scale.set(0.0100, 0.0100, .0100)
+        that.scene.add(gltf.scene.children[0])
+        console.log('that.scene is ', that.scene)
+        // that.renderer.render(that.scene, that.camera)
+        // that.render()
+      })
+    },
+    mtlObjLoad() {
+      const mtlLoader = new MTLLoader()
+      mtlLoader.setPath('static/threejs/models/') // 路径
+
+      mtlLoader.load('butterfly.mtl', mtl => {
+        mtl.preload() // 预加载
+        console.log('mtl is ', mtl)
+        const objLoader = new OBJLoader()
+        objLoader.setMaterials(mtl)
+        objLoader.setPath('static/threejs/models/')
+        objLoader.load('butterfly.obj', object => {
+          console.log('object is ', object)
+          // configure the wings
+          const wing2 = object.children[5]
+          const wing1 = object.children[4]
+
+          wing1.material.opacity = 0.6
+          wing1.material.transparent = true
+          wing1.material.depthTest = false
+          wing1.material.side = THREE.DoubleSide
+
+          wing2.material.opacity = 0.6
+          wing2.material.depthTest = false
+          wing2.material.transparent = true
+          wing2.material.side = THREE.DoubleSide
+
+          object.scale.set(140, 140, 140)
+          this.mesh = object
+          this.scene.add(this.mesh)
+
+          object.rotation.x = 0.2
+          object.rotation.y = -1.3
+        })
+      })
+    },
+    objLoad() {
+      const loader = new OBJLoader()
+      // const uri = 'static/threejs/models/juxing.obj'
+      // const uri = 'static/threejs/models/warship/jianjiaBan.obj'
+      const uri = 'static/threejs/models/warship/yatch/file.obj'
+      // console.log('uri is ' + uri)
+      // const baseUri = require('@/assets/threejs/models/')
+      loader.load(uri, loadedMesh => {
+        // const material = new THREE.MeshLambertMaterial({ color: 0x5C3A21 })
+        // loadedMesh is a group of meshes. For
+        // each mesh set the material, and compute the information
+        // three.js needs for rendering.
+        console.log('loadedMesh is ', loadedMesh)
+        loadedMesh.children.forEach(function(child) {
+          // child.material = material
+          // child.geometry.computeFaceNormals()
+          // child.geometry.computeVertexNormals()
+          // 如果json中没有纹理，则单独加载纹理。
+          const textureLoader = new THREE.TextureLoader()
+          const texture = textureLoader.load('static/threejs/models/warship/yatch/Arch48_leather.jpg')
+          child.material.map = texture
+        })
+
+        this.mesh = loadedMesh
+        // loadedMesh.scale.set(200, 200, 200)
+        // loadedMesh.rotation.x = -0.3
+        // 如果json中没有纹理，则单独加载纹理。
+        // const textureLoader = new THREE.TextureLoader()
+        // const texture = textureLoader.load('static/threejs/models/warship/yatch/Arch48_leather.jpg')
+        // this.mesh.material.map = texture
+        this.scene.add(loadedMesh)
+      })
+    },
+    daeLoad() {
+      const loader = new ColladaLoader()
+      // loader.setPath('static/threejs/models/dae/') // 路径 无效
+      const uri = 'static/threejs/models/warship/dae/file.dae'
+      // const uri = 'static/threejs/models/dimaianA.dae'
+      // const uri = 'static/threejs/models/dae/zx503.dae'
+      loader.load(uri, result => {
+        console.log('daeLoad onload result is ', result)
+        // this.mesh = result.scene.children[0].children[0].clone()
+        this.mesh = result.scene.children[0].clone()
+        // this.mesh = result.scene.children[4].clone()
+        // this.mesh = result.scene.clone()
+        // this.mesh.scale.set(4, 4, 4)
+        // this.mesh.position.set(0, 0, 0)
+        // this.mesh.rotation.x = 0
+        // this.mesh.rotation.y = 0
+        // this.mesh.rotation.z = 0
+        this.scene.add(this.mesh)
+      })
+    },
+    jsonLoad() {
       const loader = new THREE.JSONLoader()
-      // const uri = 'static/threejs/models/dimianA.json'
+      // const uri = 'static/threejs/models/warship/yatch/file.obj'
       const uri = 'static/threejs/models/warship/outview.json'
       // const uri = 'static/threejs/models/misc_chair01.json'
       console.log('uri is ' + uri)
@@ -255,6 +230,35 @@ export default {
       error => {
         console.log('error is ', error)
       })
+    },
+    drawSphere() {
+      //
+      const geometry = new THREE.IcosahedronBufferGeometry(20, 1)
+      const count = geometry.attributes.position.count
+
+      const colors = []
+      const color = new THREE.Color()
+
+      for (let i = 0; i < count; i += 3) {
+        color.setHex(Math.random() * 0xffffff)
+
+        colors.push(color.r, color.g, color.b)
+        colors.push(color.r, color.g, color.b)
+        colors.push(color.r, color.g, color.b)
+      }
+
+      geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+
+      const material = new THREE.MeshStandardMaterial({
+        vertexColors: THREE.VertexColors,
+        roughness: 0.0,
+        flatShading: true,
+        envMap: this.cubeCamera.renderTarget.texture,
+        side: THREE.DoubleSide
+      })
+
+      this.sphere = new THREE.Mesh(geometry, material)
+      this.scene.add(this.sphere)
     },
     drawSky() {
       // Skybox
@@ -282,7 +286,7 @@ export default {
           fog: this.scene.fog !== undefined
         }
       )
-      this.water.position.y = 8
+      // this.water.position.y = 8
       this.water.rotation.x = -Math.PI / 2
 
       this.scene.add(this.water)
@@ -309,25 +313,17 @@ export default {
       this.scene.add(water)
     },
     updateSun() {
-      var parameters = {
-        distance: 400,
-        inclination: 0.49,
-        azimuth: 0.205
-      }
+      const theta = Math.PI * (this.parameters.inclination - 0.5)
+      const phi = 2 * Math.PI * (this.parameters.azimuth - 0.5)
 
-      const cubeCamera = new THREE.CubeCamera(1, 20000, 256)
-      cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter
-      var theta = Math.PI * (parameters.inclination - 0.5)
-      var phi = 2 * Math.PI * (parameters.azimuth - 0.5)
-
-      this.directionalLight.position.x = parameters.distance * Math.cos(phi)
-      this.directionalLight.position.y = parameters.distance * Math.sin(phi) * Math.sin(theta)
-      this.directionalLight.position.z = parameters.distance * Math.sin(phi) * Math.cos(theta)
+      this.directionalLight.position.x = this.parameters.distance * Math.cos(phi)
+      this.directionalLight.position.y = this.parameters.distance * Math.sin(phi) * Math.sin(theta)
+      this.directionalLight.position.z = this.parameters.distance * Math.sin(phi) * Math.cos(theta)
 
       this.sky.material.uniforms.sunPosition.value = this.directionalLight.position.copy(this.directionalLight.position)
       this.water.material.uniforms.sunDirection.value.copy(this.directionalLight.position).normalize()
 
-      cubeCamera.update(this.renderer, this.scene)
+      this.cubeCamera.update(this.renderer, this.scene)
     }
   }
 }

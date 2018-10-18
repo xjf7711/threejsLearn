@@ -10,8 +10,9 @@
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
 import * as dat from 'dat.gui'
-import '@/assets/threejs/js/libs/inflate.min.js'
-import FBXLoader from '@/assets/threejs/js/loaders/FBXLoader'
+// import '@/assets/threejs/js/libs/inflate.min.js'
+// import FBXLoader from '@/assets/threejs/js/loaders/FBXLoader'
+import FBXLoader from 'three-fbxloader-offical'
 import Detector from '@/assets/threejs/Detector'
 import OrbitControls from 'threejs-orbit-controls'
 

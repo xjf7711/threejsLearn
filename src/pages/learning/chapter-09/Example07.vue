@@ -15,8 +15,8 @@ import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
 // three.js最新版本'75'相较以前使用的'71'版本obj模型加载的方法发生了变化。
 // 移除了OBJMTLLoader.js,并将原来OBJLoader.js和MTLLoader.js加载方法loader.setCrossOrigin更改为loader.setPath。
 // import OBJMTLLoader from '@/assets/threejs/js/loaders/OBJMTLLoader' // 已经被移除了
-// import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControls'
-import FirstPersonControls from 'first-person-controls'
+import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControls'
+// import FirstPersonControls from 'first-person-controls'
 // import * as chroma from '@/assets/threejs/js/libs/chroma'
 import chroma from 'chroma-js'
 

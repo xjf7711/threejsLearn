@@ -95,7 +95,7 @@ export const examplesRouterMap = [
           {
             path: 'fbx-dancing',
             name: 'fbx-dancing',
-            meta: { title: 'fbx', icon: 'table', noCache: true },
+            meta: { title: 'fbx-dancing', icon: 'table', noCache: true },
             component: () => import('@/pages/examples/webgl/loader/FbxDancer.vue')
           },
           {

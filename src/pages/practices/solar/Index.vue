@@ -10,8 +10,8 @@
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
-// import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControls'
-import FirstPersonControls from 'first-person-controls'
+import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControls'
+// import FirstPersonControls from 'first-person-controls'
 // import '@/assets/threejs/fonts/helvetiker_regular.typeface'
 
 export default {

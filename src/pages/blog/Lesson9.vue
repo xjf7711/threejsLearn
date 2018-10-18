@@ -32,8 +32,8 @@
 <script>
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
-// import TrackballControls from '@/assets/threejs/js/controls/TrackballControls'
-import TrackballControls from 'three-trackballcontrols'
+import TrackballControls from '@/assets/threejs/js/controls/TrackballControls'
+// import TrackballControls from 'three-trackballcontrols'
 export default {
   name: 'Example9',
   data() {
