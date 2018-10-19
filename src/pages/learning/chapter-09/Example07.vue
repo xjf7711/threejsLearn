@@ -21,7 +21,7 @@ import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControl
 import chroma from 'chroma-js'
 
 export default {
-  name: 'Example02',
+  name: 'Example07',
   data() {
     return {
       stats: null,

@@ -304,6 +304,12 @@ export const learningRouterMap = [
             component: () => import('@/pages/learning/chapter-09/Example07.vue'),
             name: 'Example0907Index',
             meta: { title: '07-first-person-camera', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example16',
+            component: () => import('@/pages/learning/chapter-09/Example16.vue'),
+            name: 'Example0916Index',
+            meta: { title: '16-animation-from-gltf', icon: 'table', noCache: true }
           }
         ]
       }

@@ -34,10 +34,9 @@ export default {
       const camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000)
 
       // create a render and set the size
-      const renderer = new THREE.WebGLRenderer()
-      renderer.setClearColor()
-      renderer.setClearColor(new THREE.Color(0xEEEEEE))
-      renderer.setSize(this.width, this.height)
+      this.renderer = new THREE.WebGLRenderer()
+      this.renderer.setClearColor(new THREE.Color(0xEEEEEE))
+      this.renderer.setSize(this.width, this.height)
 
       // show axes in the screen
       const axes = new THREE.AxesHelper(20)
@@ -96,10 +95,10 @@ export default {
       camera.lookAt(scene.position)
 
       // add the output of the renderer to the html element
-      this.$el.appendChild(renderer.domElement)
+      this.$el.appendChild(this.renderer.domElement)
 
       // render the scene
-      renderer.render(scene, camera)
+      this.renderer.render(scene, camera)
     }
   }
 }
