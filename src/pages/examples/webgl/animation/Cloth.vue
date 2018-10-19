@@ -15,7 +15,7 @@ import * as THREE from 'three'
 import * as Stats from 'stats.js'
 import Detector from '@/assets/threejs/Detector'
 // const Detector = require('@/assets/threejs/Detector')
-import OrbitControls from '@/assets/threejs/js/controls/OrbitControls.js'
+import OrbitControls from 'threejs-orbit-controls'
 // const OrbitControls = require('@/assets/threejs/js/controls/OrbitControls.js')
 import {
   cloth,

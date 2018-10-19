@@ -1,1 +1,4 @@
-.idea
+node_modules
+*.code-workspace
+what-to-do.md
+.history

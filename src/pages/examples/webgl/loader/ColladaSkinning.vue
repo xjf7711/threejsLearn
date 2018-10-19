@@ -12,7 +12,8 @@
 <script>
 import * as THREE from 'three'
 import ColladaLoader from '@/assets/threejs/js/loaders/ColladaLoader.js'
-import OrbitControls from '@/assets/threejs/js/controls/OrbitControls.js'
+// import OrbitControls from '@/assets/threejs/js/controls/OrbitControls.js'
+import OrbitControls from 'threejs-orbit-controls'
 
 import Detector from '@/assets/threejs/Detector'
 
