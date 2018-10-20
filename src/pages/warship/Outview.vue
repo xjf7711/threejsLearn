@@ -12,6 +12,7 @@ import mixin from '../mixin/index'
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
 import ColladaLoader from 'three-collada-loader'
 import GLTFLoader from 'three-gltf-loader'
+import FBXLoader from 'three-fbxloader-offical'
 export default {
   name: 'Ocean',
   mixins: [mixin],
@@ -75,7 +76,8 @@ export default {
       waterFolder.open()
     },
     initModels() {
-      this.gltfLoad()
+      this.fbxLoad()
+      // this.gltfLoad()
       // this.daeLoad()
       // this.objLoad()
       // this.jsonLoad()
@@ -93,12 +95,23 @@ export default {
       this.water.material.uniforms.time.value += 1.0 / 60.0
       this.renderer && this.renderer.render(this.scene, this.camera)
     },
+    fbxLoad() {
+      const loader = new FBXLoader()
+      const uri = 'static/threejs/models/warship/Outview.fbx'
+      loader.load(uri, (result) => {
+        // correctly position the scene
+        result.scale.set(0.02, 0.02, 0.02)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(result)
+      })
+    },
     gltfLoad() {
       const that = this
       // model
       const loader = new GLTFLoader()
       // console.log('loader is ', loader)
-      const uri = 'static/threejs/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf'
+      const uri = 'static/threejs/models/warship/Outview.gltf'
       loader.load(uri, function(gltf) {
         console.log('gltf is ', gltf)
         gltf.scene.traverse(function(child) {

@@ -44,19 +44,6 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/gltf',
-    name: 'gltf',
-    meta: { title: 'fbx', icon: 'table', noCache: true },
-    // component: () => import('@/pages/examples/webgl/loader/Gltf.vue')
-    component: () => import('@/pages/learning/chapter-09/Example14.vue')
-  },
-  {
-    path: '/fbx',
-    name: 'fbx',
-    meta: { title: 'fbx', icon: 'table', noCache: true },
-    component: () => import('@/pages/learning/chapter-09/Example15.vue')
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true

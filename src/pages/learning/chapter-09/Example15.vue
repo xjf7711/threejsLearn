@@ -72,7 +72,8 @@ export default {
     },
     fbxLoad() {
       const loader = new FBXLoader()
-      loader.load('static/threejs/learning/assets/models/salsa/salsa.fbx', (result) => {
+      const uri = 'static/threejs/learning/assets/models/salsa/salsa.fbx'
+      loader.load(uri, (result) => {
         // correctly position the scene
         result.scale.set(0.2, 0.2, 0.2)
         result.translateY(-13)

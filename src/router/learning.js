@@ -309,7 +309,7 @@ export const learningRouterMap = [
             path: 'example14',
             component: () => import('@/pages/learning/chapter-09/Example14.vue'),
             name: 'Example0914Index',
-            meta: { title: '16-animation-from-gltf', icon: 'table', noCache: true }
+            meta: { title: '14-animation-from-gltf', icon: 'table', noCache: true }
           }
         ]
       }

@@ -124,10 +124,14 @@ export default {
       }
     },
     handleLogin() {
+      console.log('handleLogin begins. ')
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          console.log('valid is ' + valid)
           this.loading = true
+          console.log('this.loginForm is ', this.loginForm)
           this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+            console.log('LoginByUsername success. ')
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
