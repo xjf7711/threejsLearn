@@ -6,20 +6,40 @@
 
 <script>
 import * as THREE from 'three'
-import mixin from '../mixin/index'
+import threeMixin from '../mixin/index'
 import { OBJLoader, MTLLoader } from 'three-obj-mtl-loader'
+import FBXLoader from 'three-fbxloader-offical'
 export default {
   name: 'Jianjiaban',
-  mixins: [mixin],
+  mixins: [threeMixin],
   data() {
     return {
       mesh: null
     }
   },
   methods: {
+    setCameraControls() {
+      this.cameraControls.minDistance = 1
+      this.cameraControls.maxDistance = 400
+    },
     initModels() {
+      this.fbxLoad()
       // this.jsonLoad()
-      this.objLoad()
+      // this.mtlobjLoad()
+    },
+    fbxLoad() {
+      const loader = new FBXLoader()
+      const uri = 'static/threejs/models/warship/jianJiaBan.fbx'
+      loader.load(uri, (result) => {
+        console.log('result is ', result)
+        // correctly position the scene
+        result.children[0].position.set(0, 0, 0)
+        result.children[0].rotation.x = 0
+        result.children[0].scale.set(0.002, 0.002, 0.002)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(result.children[0])
+      })
     },
     jsonLoad() {
       const loader = new THREE.JSONLoader()
@@ -41,7 +61,7 @@ export default {
         console.log('error is ', error)
       })
     },
-    objLoad() {
+    mtlobjLoad() {
       const mtlLoader = new MTLLoader()
       mtlLoader.setPath('static/threejs/models/warship/') // 路径
       mtlLoader.load(

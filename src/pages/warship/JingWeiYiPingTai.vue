@@ -8,10 +8,11 @@
 
 <script>
 import * as THREE from 'three'
-import mixin from '../mixin/index'
+import FBXLoader from 'three-fbxloader-offical'
+import threeMixin from '../mixin/index'
 export default {
   name: 'JingWeiYPingTai',
-  mixins: [mixin],
+  mixins: [threeMixin],
   data() {
     return {
       // directionalLight: null,
@@ -21,6 +22,10 @@ export default {
   },
   methods: {
     initModels() {
+      // this.jsonLoad()
+      this.fbxLoad()
+    },
+    jsonLoad() {
       const loader = new THREE.JSONLoader()
       // const uri = 'static/threejs/models/dimianA.json'
       const uri = 'static/threejs/models/warship/jingWeiYiPingTai.json'
@@ -50,6 +55,20 @@ export default {
       },
       error => {
         console.log('error is ', error)
+      })
+    },
+    fbxLoad() {
+      const loader = new FBXLoader()
+      const uri = 'static/threejs/models/warship/jingWeiYiPingTai.fbx'
+      loader.load(uri, (result) => {
+        console.log('result is ', result)
+        // correctly position the scene
+        result.children[0].position.set(0, 4, 0)
+        result.children[0].rotation.x = 0
+        result.children[0].scale.set(0.02, 0.02, 0.02)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(result.children[0])
       })
     }
   }

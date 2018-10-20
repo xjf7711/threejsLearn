@@ -93,7 +93,6 @@ export default {
       if (this.sphere) this.sphere.rotation.z = time * 0.51
 
       this.water.material.uniforms.time.value += 1.0 / 60.0
-      this.renderer && this.renderer.render(this.scene, this.camera)
     },
     fbxLoad() {
       const loader = new FBXLoader()

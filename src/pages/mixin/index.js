@@ -154,7 +154,7 @@ export default {
       // How far you can orbit vertically, upper and lower limits.
       // Range is 0 to Math.PI radians.
       // 最大仰视角和俯视角
-      this.cameraControls.minPolarAngle = 0.1 * Math.PI // radians
+      this.cameraControls.minPolarAngle = 0.01 * Math.PI // radians
       this.cameraControls.maxPolarAngle = 0.49 * Math.PI // radians
       // How far you can orbit horizontally, upper and lower limits.
       // If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].

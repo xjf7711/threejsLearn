@@ -8,6 +8,7 @@
 
 <script>
 import * as THREE from 'three'
+import FBXLoader from 'three-fbxloader-offical'
 // import * as dat from 'dat.gui'
 // import OrbitControls from 'threejs-orbit-controls'
 // import clearWebGLContext from '../mixin/clearWebGLContext'
@@ -20,6 +21,24 @@ export default {
   mixins: [mixin],
   methods: {
     initModels() {
+      this.fbxLoad()
+      // this.jsonLoad()
+    },
+    fbxLoad() {
+      const loader = new FBXLoader()
+      const uri = 'static/threejs/models/warship/jiaShiJiaBan04.fbx'
+      loader.load(uri, (result) => {
+        console.log('result is ', result)
+        // correctly position the scene
+        result.position.set(0, 4, 0)
+        result.rotation.x = -Math.PI / 2
+        result.scale.set(0.01, 0.01, 0.01)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(result)
+      })
+    },
+    jsonLoad() {
       const loader = new THREE.JSONLoader()
       // const uri = 'static/threejs/models/dimianA.json'
       const uri = 'static/threejs/models/warship/jianjiaban4.json'
