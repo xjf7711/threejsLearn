@@ -33,12 +33,12 @@ export default {
     this.initLight()
     this.initHelper()
     this.initModels()
-    this.initGui()
   },
   mounted() {
     this.initCamera()
     this.initRenderer()
     this.initCameraControls()
+    this.initGui()
     // // this.initScene()
     // this.initCamera()
     // // this.initLight()

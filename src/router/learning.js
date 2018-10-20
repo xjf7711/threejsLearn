@@ -300,15 +300,15 @@ export const learningRouterMap = [
             meta: { title: '03-animation-tween', icon: 'table', noCache: true }
           },
           {
-            path: 'example07',
-            component: () => import('@/pages/learning/chapter-09/Example07.vue'),
-            name: 'Example0907Index',
-            meta: { title: '07-first-person-camera', icon: 'table', noCache: true }
+            path: 'example06',
+            component: () => import('@/pages/learning/chapter-09/Example06.vue'),
+            name: 'Example0906Index',
+            meta: { title: '06-first-person-camera', icon: 'table', noCache: true }
           },
           {
-            path: 'example16',
-            component: () => import('@/pages/learning/chapter-09/Example16.vue'),
-            name: 'Example0916Index',
+            path: 'example14',
+            component: () => import('@/pages/learning/chapter-09/Example14.vue'),
+            name: 'Example0914Index',
             meta: { title: '16-animation-from-gltf', icon: 'table', noCache: true }
           }
         ]
