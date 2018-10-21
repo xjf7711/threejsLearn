@@ -30,7 +30,7 @@ export default {
       loader.load(uri, (result) => {
         console.log('result is ', result)
         // correctly position the scene
-        result.position.set(0, 4, 0)
+        result.position.set(0, 2, 0)
         result.rotation.x = -Math.PI / 2
         result.scale.set(0.01, 0.01, 0.01)
         // result.translateY(-13)

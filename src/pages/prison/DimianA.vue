@@ -40,16 +40,16 @@ export default {
     },
     fbxLoad() {
       const loader = new FBXLoader()
-      const uri = 'static/threejs/models/prison/diCeng.fbx'
+      const uri = 'static/threejs/models/prison/diMianA.fbx'
       loader.load(uri, (result) => {
         console.log('result is ', result)
         // correctly position the scene
-        result.children[0].position.set(0, 1, 0)
-        result.children[0].rotation.x = 0
-        result.children[0].scale.set(0.01, 0.01, 0.01)
+        result.position.set(0, 1, 0)
+        result.rotation.x = 0
+        result.scale.set(0.01, 0.01, 0.01)
         // result.translateY(-13)
         // result.scene.rotateY(-0.3 * Math.PI)
-        this.scene.add(result.children[0])
+        this.scene.add(result)
       })
     },
     jsonLoad() {

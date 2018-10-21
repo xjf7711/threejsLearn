@@ -9,6 +9,7 @@
 <script>
 import * as THREE from 'three'
 import threeMixin from '../mixin/index'
+import GLTFLoader from 'three-gltf-loader'
 import FBXLoader from 'three-fbxloader-offical'
 export default {
   name: 'DimianB',
@@ -35,8 +36,23 @@ export default {
       this.scene.add(gridHelper)
     },
     initModels() {
-      this.fbxLoad()
+      this.gltfLoad()
+      // this.fbxLoad()
       // this.jsonLoad()
+    },
+    gltfLoad() {
+      const loader = new GLTFLoader()
+      const uri = 'static/threejs/models/prison/diMianB.gltf'
+      loader.load(uri, (result) => {
+        console.log('result is ', result)
+        // correctly position the scene
+        result.scene.children[0].position.set(0, 0.1, 0)
+        result.scene.children[0].rotation.x = Math.PI / 2
+        result.scene.children[0].scale.set(0.001, 0.001, 0.001)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(result.scene.children[0])
+      })
     },
     fbxLoad() {
       const loader = new FBXLoader()
