@@ -312,6 +312,51 @@ export const learningRouterMap = [
             meta: { title: '14-animation-from-gltf', icon: 'table', noCache: true }
           }
         ]
+      },
+      {
+        path: '/chapter10',
+        component: Example,
+        name: 'Chapter-10',
+        // redirect: '/chapter10/example02',
+        meta: { title: 'chapter10', icon: 'table', noCache: true },
+        children: [
+          // {
+          //   path: 'example01',
+          //   component: () => import('@/pages/learning/chapter-10/Example01.vue'),
+          //   name: 'Example1001Index',
+          //   meta: { title: '01-basic-animation', icon: 'table', noCache: true }
+          // },
+          // {
+          //   path: 'example02',
+          //   component: () => import('@/pages/learning/chapter-10/Example02.vue'),
+          //   name: 'Example1002Index',
+          //   meta: { title: '02-selecting-objects', icon: 'table', noCache: true }
+          // },
+          // {
+          //   path: 'example03',
+          //   component: () => import('@/pages/learning/chapter-10/Example03.vue'),
+          //   name: 'Example1003Index',
+          //   meta: { title: '03-animation-tween', icon: 'table', noCache: true }
+          // },
+          // {
+          //   path: 'example06',
+          //   component: () => import('@/pages/learning/chapter-10/Example06.vue'),
+          //   name: 'Example1006Index',
+          //   meta: { title: '06-first-person-camera', icon: 'table', noCache: true }
+          // },
+          // {
+          //   path: 'example14',
+          //   component: () => import('@/pages/learning/chapter-10/Example14.vue'),
+          //   name: 'Example1014Index',
+          //   meta: { title: '14-animation-from-gltf', icon: 'table', noCache: true }
+          // },
+          {
+            path: 'example24',
+            component: () => import('@/pages/learning/chapter-10/Example24.vue'),
+            name: 'Example1024Index',
+            meta: { title: '24-video-texture', icon: 'table', noCache: true }
+          }
+        ]
       }
     ]
   }

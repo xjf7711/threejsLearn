@@ -44,7 +44,7 @@ export default {
     setCamera() {
       this.camera.position.set(300, 400, 500)
     },
-    setLight() {
+    initLight() {
       this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
       this.scene.add(this.directionalLight)
       const hemiLight = new THREE.HemisphereLight(0xffffFF, 0x080820, 1)
@@ -77,7 +77,7 @@ export default {
     },
     initModels() {
       this.fbxLoad()
-      // this.gltfLoad()
+      this.gltfLoad()
       // this.daeLoad()
       // this.objLoad()
       // this.jsonLoad()
@@ -92,7 +92,7 @@ export default {
       if (this.sphere) this.sphere.rotation.x = time * 0.5
       if (this.sphere) this.sphere.rotation.z = time * 0.51
 
-      this.water.material.uniforms.time.value += 1.0 / 60.0
+      if (this.water) this.water.material.uniforms.time.value += 1.0 / 60.0
     },
     fbxLoad() {
       const loader = new FBXLoader()
@@ -110,19 +110,14 @@ export default {
       // model
       const loader = new GLTFLoader()
       // console.log('loader is ', loader)
-      const uri = 'static/threejs/models/warship/Outview.gltf'
-      loader.load(uri, function(gltf) {
-        console.log('gltf is ', gltf)
-        gltf.scene.traverse(function(child) {
-          console.log('child is ', child)
-          if (child.isMesh) {
-            console.log('child.material is ', child.material)
-            child.material.envMap = that.envMap
-          }
-        })
-        // gltf.scene.scale.set(0.0100, 0.0100, .0100)
-        that.scene.add(gltf.scene.children[0])
-        console.log('that.scene is ', that.scene)
+      const uri = 'static/threejs/learning/assets/models/CesiumMan/CesiumMan.gltf'
+      loader.load(uri, (gltf) => {
+        // console.log('gltf is ', gltf)
+        const mesh = gltf.scene.children[0]
+        mesh.position.set(20, 52.5, 0)
+        mesh.scale.set(20, 20, 20)
+        that.scene.add(mesh)
+        // console.log('that.scene is ', that.scene)
         // that.renderer.render(that.scene, that.camera)
         // that.render()
       })
@@ -164,7 +159,6 @@ export default {
     },
     objLoad() {
       const loader = new OBJLoader()
-      // const uri = 'static/threejs/models/juxing.obj'
       // const uri = 'static/threejs/models/warship/jianjiaBan.obj'
       const uri = 'static/threejs/models/warship/yatch/file.obj'
       // console.log('uri is ' + uri)

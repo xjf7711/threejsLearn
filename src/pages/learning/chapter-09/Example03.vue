@@ -9,128 +9,150 @@ import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 // import * as Stats from 'stats.js'
 // import * as dat from 'dat.gui'
-import stats from '@/pages/mixin/stats'
-import mouse from '@/pages/mixin/mouse'
-import windowResize from '@/pages/mixin/windowResize'
+// import stats from '@/pages/mixin/stats'
+// import mouse from '@/pages/mixin/mouse'
+// import windowResize from '@/pages/mixin/windowResize'
 import PLYLoader from '@/assets/threejs/js/loaders/PLYLoader'
-
+// const PLYLoader = require('three-ply-loader')
+// PLYLoader(THREE)
+// import { BaseLoaderScene } from './js/baseLoaderScene'
+import threeMixin from '../../mixin/index'
 export default {
   name: 'Example03',
-  mixins: [stats, windowResize, mouse],
+  mixins: [threeMixin],
   data() {
     return {
-      scene: null,
-      camera: null,
-      camControls: null,
-      renderer: null,
-      loadedGeometry: null,
-      pointCloud: null
+      // scene: null,
+      // camera: null,
+      // camControls: null,
+      // renderer: null,
+      // loadedGeometry: null,
+      // pointCloud: null
+      mesh: null,
+      posSrc: { pos: 1 }
     }
   },
   mounted() {
-    this.initStats()
-    this.initScene()
-    this.initCamera()
-    this.initRenderer()
-    this.initLight()
-    this.initModels()
-    // call the render function
-    this.animate()
+    // this.initStats()
+    // this.initScene()
+    // this.initCamera()
+    // this.initRenderer()
+    // this.initLight()
+    // this.initModels()
+    // // call the render function
+    // this.animate()
   },
   methods: {
-    // once everything is loaded, we run our Three.js stuff.
-    initScene() {
-      // create a scene, that will hold all our elements such as objects, cameras and lights.
-      this.scene = new THREE.Scene()
-    },
-    initRenderer() {
-      // create a render and set the size
-      this.renderer = new THREE.WebGLRenderer()
-      this.renderer.setClearColor(0x000, 1.0)
-      this.renderer.setSize(this.width, this.height)
-      this.renderer.shadowMap.enabled = true
-
-      // add the output of the renderer to the html element
-      this.$el.appendChild(this.renderer.domElement)
-    },
-    initCamera() {
-      // create a camera, which defines where we're looking at.
-      this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000)
-
-      // position and point the camera to the center of the scene
-      this.camera.position.x = 10
-      this.camera.position.y = 10
-      this.camera.position.z = 10
-      this.camera.lookAt(new THREE.Vector3(0, -2, 0))
-    },
-    initLight() {
-      // add subtle ambient lighting
-      // const ambientLight = new THREE.AmbientLight(0xFFFFFF)
-      // this.scene.add(ambientLight)
-
-      // add spotlight for the shadows
-      const spotLight = new THREE.SpotLight(0xffffff)
-      spotLight.position.set(20, 20, 20)
-
-      this.scene.add(spotLight)
-    },
-    initModels() {
+    // // once everything is loaded, we run our Three.js stuff.
+    // initScene() {
+    //   // create a scene, that will hold all our elements such as objects, cameras and lights.
+    //   this.scene = new THREE.Scene()
+    // },
+    // initRenderer() {
+    //   // create a render and set the size
+    //   this.renderer = new THREE.WebGLRenderer()
+    //   this.renderer.setClearColor(0x000, 1.0)
+    //   this.renderer.setSize(this.width, this.height)
+    //   this.renderer.shadowMap.enabled = true
+    //
+    //   // add the output of the renderer to the html element
+    //   this.$el.appendChild(this.renderer.domElement)
+    // },
+    // initCamera() {
+    //   // create a camera, which defines where we're looking at.
+    //   this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000)
+    //
+    //   // position and point the camera to the center of the scene
+    //   this.camera.position.x = 10
+    //   this.camera.position.y = 10
+    //   this.camera.position.z = 10
+    //   this.camera.lookAt(new THREE.Vector3(0, -2, 0))
+    // },
+    // initLight() {
+    //   // add subtle ambient lighting
+    //   // const ambientLight = new THREE.AmbientLight(0xFFFFFF)
+    //   // this.scene.add(ambientLight)
+    //
+    //   // add spotlight for the shadows
+    //   const spotLight = new THREE.SpotLight(0xffffff)
+    //   spotLight.position.set(20, 20, 20)
+    //
+    //   this.scene.add(spotLight)
+    // },
+    initHelper() {
       // 辅助工具
       const helper = new THREE.AxesHelper(50)
       this.scene.add(helper)
+    },
+    initModels() {
+      var tween = new TWEEN.Tween(this.posSrc).to({ pos: 0 }, 2000)
+      tween.easing(TWEEN.Easing.Bounce.InOut)
 
-      this.pointCloud = new THREE.Object3D()
+      var tweenBack = new TWEEN.Tween(this.posSrc).to({ pos: 1 }, 2000)
+      tweenBack.easing(TWEEN.Easing.Bounce.InOut)
 
-      // create a tween
-      // http://sole.github.io/tween.js/examples/03_graphs.html
-      const posSrc = { pos: 1 }
-      const tween = new TWEEN.Tween(posSrc).to({ pos: 0 }, 5000)
-      tween.easing(TWEEN.Easing.Sinusoidal.InOut)
-
-      const tweenBack = new TWEEN.Tween(posSrc).to({ pos: 1 }, 5000)
-      tweenBack.easing(TWEEN.Easing.Sinusoidal.InOut)
-
-      tween.chain(tweenBack)
       tweenBack.chain(tween)
-      const that = this
-      const onUpdate = function() {
-        let count = 0
-        const pos = this.pos
-        if (that.loadedGeometry.vertices) {
-          that.loadedGeometry.vertices.forEach(function(e) {
-            const newY = ((e.y + 3.22544) * pos) - 3.22544
-            that.pointCloud.geometry.vertices[count++].set(e.x, newY, e.z)
-          })
+      tween.chain(tweenBack)
 
-          that.pointCloud.sortParticles = true
-        }
-      }
+      tween.start()
 
-      tween.onUpdate(onUpdate)
-      tweenBack.onUpdate(onUpdate)
+      // var loaderScene = new BaseLoaderScene(this.camera, false, false, function(mesh) {
+      //   TWEEN.update()
+      //
+      //   var positionArray = mesh.geometry.attributes['position']
+      //   var origPosition = mesh.geometry.origPosition
+      //
+      //   for (let i = 0; i < positionArray.count; i++) {
+      //     var oldPosX = origPosition.getX(i)
+      //     var oldPosY = origPosition.getY(i)
+      //     var oldPosZ = origPosition.getZ(i)
+      //     positionArray.setX(i, oldPosX * posSrc.pos)
+      //     positionArray.setY(i, oldPosY * posSrc.pos)
+      //     positionArray.setZ(i, oldPosZ * posSrc.pos)
+      //   }
+      //   positionArray.needsUpdate = true
+      // })
 
-      const loader = new PLYLoader()
-
-      loader.load('static/threejs/models/test.ply', geometry => {
-        // console.log('loader.load geometry is ', geometry)
-        this.loadedGeometry = geometry.clone()
-
-        // const material = new THREE.PointCloudMaterial({
-        const material = new THREE.PointsMaterial({
+      var loader = new PLYLoader()
+      loader.load('static/threejs/learning/assets/models/carcloud/carcloud.ply', (geometry) => {
+        var material = new THREE.PointsMaterial({
           color: 0xffffff,
-          size: 0.4,
+          size: 1,
           opacity: 0.6,
           transparent: true,
           blending: THREE.AdditiveBlending,
+          depthWrite: false,
           map: this.generateSprite()
         })
-        // this.pointCloud = new THREE.PointCloud(geometry, material)
-        this.pointCloud = new THREE.Points(geometry, material)
-        this.pointCloud.sortParticles = true
 
-        tween.start()
-        this.scene.add(this.pointCloud)
+        // copy the original position, so we can referene that when tweening
+        var origPosition = geometry.attributes['position'].clone()
+        geometry.origPosition = origPosition
+
+        var group = new THREE.Points(geometry, material)
+        group.scale.set(2.5, 2.5, 2.5)
+        this.mesh = group
+        this.scene.add(group)
+        // loaderScene.render(group, this.camera)
       })
+    },
+    render() {
+      if (this.mesh) {
+        TWEEN.update()
+
+        var positionArray = this.mesh.geometry.attributes['position']
+        var origPosition = this.mesh.geometry.origPosition
+
+        for (let i = 0; i < positionArray.count; i++) {
+          var oldPosX = origPosition.getX(i)
+          var oldPosY = origPosition.getY(i)
+          var oldPosZ = origPosition.getZ(i)
+          positionArray.setX(i, oldPosX * this.posSrc.pos)
+          positionArray.setY(i, oldPosY * this.posSrc.pos)
+          positionArray.setZ(i, oldPosZ * this.posSrc.pos)
+        }
+        positionArray.needsUpdate = true
+      }
     },
     // from THREE.js examples
     generateSprite() {
@@ -151,13 +173,13 @@ export default {
       const texture = new THREE.Texture(canvas)
       texture.needsUpdate = true
       return texture
-    },
-    animate() {
-      this.stats.update()
-      TWEEN.update()
-      requestAnimationFrame(this.animate)
-      this.renderer.render(this.scene, this.camera)
     }
+    // animate() {
+    //   this.stats.update()
+    //   TWEEN.update()
+    //   requestAnimationFrame(this.animate)
+    //   this.renderer.render(this.scene, this.camera)
+    // }
   }
 }
 </script>

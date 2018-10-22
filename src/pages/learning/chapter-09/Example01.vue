@@ -6,10 +6,10 @@
 
 <script>
 import * as THREE from 'three'
-import * as Stats from 'stats.js'
+// import * as Stats from 'stats.js'
 import * as dat from 'dat.gui'
-import stats from '@/pages/mixin/stats'
-import windowResize from '@/pages/mixin/windowResize'
+import stats from '../../mixin/stats'
+import windowResize from '../../mixin/windowResize'
 // import Projector from '@/assets/threejs/libs/Projector'
 export default {
   name: 'Example01',
@@ -54,7 +54,7 @@ export default {
     initRenderer() {
       // create a render and set the size
       this.renderer = new THREE.WebGLRenderer()
-      this.renderer.setClearColor(0xEEEEEE, 1.0)
+      this.renderer.setClearColor(0xDDDDDD, 1.0)
       this.renderer.setSize(this.width, this.height)
 
       // add the output of the renderer to the html element
@@ -148,22 +148,26 @@ export default {
       }
 
       const datGui = new dat.GUI()
+      datGui.domElement.style.position = 'absolute'
+      datGui.domElement.style.right = '7px'
+      datGui.domElement.style.top = '87px'
+      this.$el.appendChild(datGui.domElement)
       datGui.add(this.controls, 'rotationSpeed', 0, 0.5)
       datGui.add(this.controls, 'bouncingSpeed', 0, 0.5)
       datGui.add(this.controls, 'scalingSpeed', 0, 0.5)
-    },
-    initStats() {
-      this.stats = new Stats()
-
-      this.stats.setMode(0) // 0: fps, 1: ms
-
-      // Align top-left
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '0px'
-      this.stats.domElement.style.top = '0px'
-
-      this.$el.appendChild(this.stats.domElement)
     }
+    // initStats() {
+    //   this.stats = new Stats()
+    //
+    //   this.stats.setMode(0) // 0: fps, 1: ms
+    //
+    //   // Align top-left
+    //   this.stats.domElement.style.position = 'absolute'
+    //   this.stats.domElement.style.left = '20px'
+    //   this.stats.domElement.style.top = '87px'
+    //
+    //   this.$el.appendChild(this.stats.domElement)
+    // }
   }
 }
 </script>

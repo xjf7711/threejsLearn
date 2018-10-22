@@ -93,12 +93,6 @@ export const examplesRouterMap = [
             component: () => import('@/pages/examples/webgl/loader/Fbx.vue')
           },
           {
-            path: 'fbx-dancing',
-            name: 'fbx-dancing',
-            meta: { title: 'fbx-dancing', icon: 'table', noCache: true },
-            component: () => import('@/pages/examples/webgl/loader/FbxDancer.vue')
-          },
-          {
             path: 'json-blender',
             name: 'json-blender',
             meta: { title: 'json-blender', icon: 'table', noCache: true },

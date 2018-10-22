@@ -15,13 +15,13 @@ import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
 // three.js最新版本'75'相较以前使用的'71'版本obj模型加载的方法发生了变化。
 // 移除了OBJMTLLoader.js,并将原来OBJLoader.js和MTLLoader.js加载方法loader.setCrossOrigin更改为loader.setPath。
 // import OBJMTLLoader from '@/assets/threejs/js/loaders/OBJMTLLoader' // 已经被移除了
-import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControls'
-// import FirstPersonControls from 'first-person-controls'
+// import FirstPersonControls from '@/assets/threejs/js/controls/FirstPersonControls'
+import FirstPersonControls from 'first-person-controls'
 // import * as chroma from '@/assets/threejs/js/libs/chroma'
 import chroma from 'chroma-js'
 
 export default {
-  name: 'Example07',
+  name: 'Example06',
   data() {
     return {
       stats: null,
@@ -146,11 +146,9 @@ export default {
 
       const mtlLoader = new MTLLoader()
       mtlLoader.setPath('static/threejs/models/city/')
-
       // 加载mtl文件
       mtlLoader.load('city.mtl', (material) => {
         const objLoader = new OBJLoader()
-
         // 设置当前加载的纹理
         objLoader.setMaterials(material)
         objLoader.setPath('static/threejs/models/city/')
@@ -158,10 +156,9 @@ export default {
           // console.log(object)
           // 设置颜色的取值范围
           const scale = chroma.scale(['yellow', '008ae5'])
-          console.log(object)
+          // console.log(object)
           // 重新设置纹理颜色
           this.setRandomColors(object, scale)
-
           // 将模型缩放并添加到场景当中
           this.scene.add(object)
         })
