@@ -338,12 +338,72 @@ export const learningRouterMap = [
           //   name: 'Example1003Index',
           //   meta: { title: '03-animation-tween', icon: 'table', noCache: true }
           // },
-          // {
-          //   path: 'example06',
-          //   component: () => import('@/pages/learning/chapter-10/Example06.vue'),
-          //   name: 'Example1006Index',
-          //   meta: { title: '06-first-person-camera', icon: 'table', noCache: true }
-          // },
+          {
+            path: 'example08',
+            component: () => import('@/pages/learning/chapter-10/Example08.vue'),
+            name: 'Example1008Index',
+            meta: { title: '08-Bump-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example09',
+            component: () => import('@/pages/learning/chapter-10/Example09.vue'),
+            name: 'Example1009Index',
+            meta: { title: '09-normal-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example10',
+            component: () => import('@/pages/learning/chapter-10/Example10.vue'),
+            name: 'Example1010Index',
+            meta: { title: '10-displacement-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example11',
+            component: () => import('@/pages/learning/chapter-10/Example11.vue'),
+            name: 'Example1011Index',
+            meta: { title: '11-ao-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example12',
+            component: () => import('@/pages/learning/chapter-10/Example12.vue'),
+            name: 'Example1012Index',
+            meta: { title: '12-light-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example13',
+            component: () => import('@/pages/learning/chapter-10/Example13.vue'),
+            name: 'Example1013Index',
+            meta: { title: '13-metal-roughness-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example14',
+            component: () => import('@/pages/learning/chapter-10/Example14.vue'),
+            name: 'Example1014Index',
+            meta: { title: '14-alpha-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example15',
+            component: () => import('@/pages/learning/chapter-10/Example15.vue'),
+            name: 'Example1015Index',
+            meta: { title: '15-emissive-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example16',
+            component: () => import('@/pages/learning/chapter-10/Example16.vue'),
+            name: 'Example1016Index',
+            meta: { title: '16-specular-map', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example17',
+            component: () => import('@/pages/learning/chapter-10/Example17.vue'),
+            name: 'Example1017Index',
+            meta: { title: '17-env-map-static', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example18',
+            component: () => import('@/pages/learning/chapter-10/Example18.vue'),
+            name: 'Example1018Index',
+            meta: { title: '18-env-map-dynamic', icon: 'table', noCache: true }
+          },
           // {
           //   path: 'example14',
           //   component: () => import('@/pages/learning/chapter-10/Example14.vue'),
@@ -355,6 +415,63 @@ export const learningRouterMap = [
             component: () => import('@/pages/learning/chapter-10/Example24.vue'),
             name: 'Example1024Index',
             meta: { title: '24-video-texture', icon: 'table', noCache: true }
+          }
+        ]
+      },
+      {
+        path: '/chapter12',
+        component: Example,
+        name: 'Chapter-12',
+        // redirect: '/chapter10/example02',
+        meta: { title: 'chapter12', icon: 'table', noCache: true },
+        children: [
+          {
+            path: 'example00',
+            component: () => import('@/pages/learning/chapter-12/Example00.vue'),
+            name: 'Example1200Index',
+            meta: { title: '00-template', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example01',
+            component: () => import('@/pages/learning/chapter-12/Example01.vue'),
+            name: 'Example1201Index',
+            meta: { title: '01-dominos', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example02',
+            component: () => import('@/pages/learning/chapter-12/Example02.vue'),
+            name: 'Example1202Index',
+            meta: { title: '02-material', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example03',
+            component: () => import('@/pages/learning/chapter-12/Example03.vue'),
+            name: 'Example1203Index',
+            meta: { title: '03-shapes', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example04',
+            component: () => import('@/pages/learning/chapter-12/Example04.vue'),
+            name: 'Example1204Index',
+            meta: { title: '04-point-constraint', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example05',
+            component: () => import('@/pages/learning/chapter-12/Example05.vue'),
+            name: 'Example1205Index',
+            meta: { title: '05-sliders-hinges', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example06',
+            component: () => import('@/pages/learning/chapter-12/Example06.vue'),
+            name: 'Example1206Index',
+            meta: { title: '06-dof-constraint', icon: 'table', noCache: true }
+          },
+          {
+            path: 'example07',
+            component: () => import('@/pages/learning/chapter-12/Example07.vue'),
+            name: 'Example1207Index',
+            meta: { title: '07-audio', icon: 'table', noCache: true }
           }
         ]
       }

@@ -1,12 +1,6 @@
 <template>
   <div class="example">
-    <h2>Example 10.24 - Video texture</h2>
-    <video
-      id="video"
-      style="display: none; position: absolute; left: 15px; top: 75px;"
-      src="static/threejs/learning/assets/movies/Big_Buck_Bunny_small.ogv"
-      controls="true"
-      autoplay="true"/>
+    <h2>Example 10.10 - Displacement map</h2>
   </div>
 </template>
 
@@ -15,7 +9,7 @@ import * as THREE from 'three'
 import threeMixin from '../../mixin/index'
 // import GLTFLoader from 'three-gltf-loader'
 // import GLTFLoader from '../../../assets/threejs/js/loaders/GLTFLoader'
-import { addGeometry } from './js/util'
+// import { addGeometryWithMaterial } from './js/util'
 import { addLargeGroundPlane } from '../../mixin/create'
 export default {
   name: 'Example16',
@@ -24,7 +18,7 @@ export default {
     return {
       clock: new THREE.Clock(),
       controls: null,
-      polyhedronMesh: null,
+      sphereMaterial: null,
       sphereMesh: null,
       cubeMesh: null
     }
@@ -57,39 +51,36 @@ export default {
     //   this.scene.add(axesHelper)
     // },
     initModels() {
-      var groundPlane = addLargeGroundPlane(this.scene)
-      groundPlane.position.y = -10
+      const groundPlane = addLargeGroundPlane(this.scene)
+      groundPlane.position.y = -8
+      groundPlane.receiveShadow = true
       // this.fbxLoad()
+      var textureLoader = new THREE.TextureLoader()
+      var sphere = new THREE.SphereGeometry(8, 180, 180)
+      this.sphereMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load('static/threejs/learning/assets/textures/w_c.jpg'),
+        displacementMap: textureLoader.load('static/threejs/learning/assets/textures/w_d.png'),
+        metalness: 0.02,
+        roughness: 0.07,
+        color: 0xffffff
+      })
+      this.sphereMesh = new THREE.Mesh(sphere, this.sphereMaterial)
+      this.sphereMesh.castShadow = true
+
+      // addGeometryWithMaterial(scene, sphere, 'sphere', gui, controls, sphereMaterial);
+
+      this.scene.add(this.sphereMesh)
     },
     setGui() {
       this.controls = {
-        material: null
+        displacementScale: 1,
+        displacementBias: 0
       }
-      const video = document.getElementById('video')
-      const texture = new THREE.VideoTexture(video)
-      texture.minFilter = THREE.LinearFilter
-      texture.magFilter = THREE.LinearFilter
-      texture.format = THREE.RGBFormat
-      const polyhedron = new THREE.IcosahedronGeometry(8, 0)
-      this.polyhedronMesh = addGeometry(this.scene, polyhedron, 'polyhedron', texture, this.gui, this.controls)
-      this.polyhedronMesh.position.x = 20
-      this.scene.add(this.polyhedronMesh)
-      const sphere = new THREE.SphereGeometry(5, 20, 20)
-      this.sphereMesh = addGeometry(this.scene, sphere, 'sphere', texture, this.gui, this.controls)
-
-      var cube = new THREE.BoxGeometry(10, 10, 10)
-      // this.cubeMesh = addGeometry(this.scene, cube, 'cube', texture, this.gui, this.controls)
-      const cubeMaterial = new THREE.MeshLambertMaterial({
-        map: texture
-      })
-      this.cubeMesh = new THREE.Mesh(cube, cubeMaterial)
-      this.cubeMesh.position.x = -20
-      this.scene.add(this.cubeMesh)
+      this.gui.add(this.controls, 'displacementScale', -5, 5, 0.01).onChange((e) => { this.sphereMaterial.displacementScale = e })
+      this.gui.add(this.controls, 'displacementBias', -5, 5, 0.01).onChange((e) => { this.sphereMaterial.displacementBias = e })
     },
     render() {
-      if (this.polyhedronMesh) this.polyhedronMesh.rotation.x += 0.01
       if (this.sphereMesh) this.sphereMesh.rotation.y += 0.01
-      if (this.cubeMesh) this.cubeMesh.rotation.z += 0.01
     }
   }
 }

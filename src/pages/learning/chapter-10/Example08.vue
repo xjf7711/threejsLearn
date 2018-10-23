@@ -1,12 +1,6 @@
 <template>
   <div class="example">
-    <h2>Example 10.24 - Video texture</h2>
-    <video
-      id="video"
-      style="display: none; position: absolute; left: 15px; top: 75px;"
-      src="static/threejs/learning/assets/movies/Big_Buck_Bunny_small.ogv"
-      controls="true"
-      autoplay="true"/>
+    <h2>Example 10.08 - Bump map</h2>
   </div>
 </template>
 
@@ -15,7 +9,7 @@ import * as THREE from 'three'
 import threeMixin from '../../mixin/index'
 // import GLTFLoader from 'three-gltf-loader'
 // import GLTFLoader from '../../../assets/threejs/js/loaders/GLTFLoader'
-import { addGeometry } from './js/util'
+import { addGeometryWithMaterial } from './js/util'
 import { addLargeGroundPlane } from '../../mixin/create'
 export default {
   name: 'Example16',
@@ -57,7 +51,7 @@ export default {
     //   this.scene.add(axesHelper)
     // },
     initModels() {
-      var groundPlane = addLargeGroundPlane(this.scene)
+      const groundPlane = addLargeGroundPlane(this.scene)
       groundPlane.position.y = -10
       // this.fbxLoad()
     },
@@ -65,31 +59,26 @@ export default {
       this.controls = {
         material: null
       }
-      const video = document.getElementById('video')
-      const texture = new THREE.VideoTexture(video)
-      texture.minFilter = THREE.LinearFilter
-      texture.magFilter = THREE.LinearFilter
-      texture.format = THREE.RGBFormat
-      const polyhedron = new THREE.IcosahedronGeometry(8, 0)
-      this.polyhedronMesh = addGeometry(this.scene, polyhedron, 'polyhedron', texture, this.gui, this.controls)
-      this.polyhedronMesh.position.x = 20
-      this.scene.add(this.polyhedronMesh)
-      const sphere = new THREE.SphereGeometry(5, 20, 20)
-      this.sphereMesh = addGeometry(this.scene, sphere, 'sphere', texture, this.gui, this.controls)
-
-      var cube = new THREE.BoxGeometry(10, 10, 10)
-      // this.cubeMesh = addGeometry(this.scene, cube, 'cube', texture, this.gui, this.controls)
-      const cubeMaterial = new THREE.MeshLambertMaterial({
-        map: texture
+      const textureLoader = new THREE.TextureLoader()
+      const cube = new THREE.BoxGeometry(16, 16, 16)
+      const cubeMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load('static/threejs/learning/assets/textures/stone/stone.jpg'),
+        metalness: 0.2,
+        roughness: 0.07
       })
-      this.cubeMesh = new THREE.Mesh(cube, cubeMaterial)
-      this.cubeMesh.position.x = -20
-      this.scene.add(this.cubeMesh)
-    },
-    render() {
-      if (this.polyhedronMesh) this.polyhedronMesh.rotation.x += 0.01
-      if (this.sphereMesh) this.sphereMesh.rotation.y += 0.01
-      if (this.cubeMesh) this.cubeMesh.rotation.z += 0.01
+
+      const cubeMaterialWithBumpMap = cubeMaterial.clone()
+      cubeMaterialWithBumpMap.bumpMap = textureLoader.load('../../assets/textures/stone/stone-bump.jpg')
+
+      const cube1 = addGeometryWithMaterial(this.scene, cube, 'cube-1', this.gui, this.controls, cubeMaterial)
+      cube1.position.x = -17
+      cube1.rotation.y = 1 / 3 * Math.PI
+
+      const cube2 = addGeometryWithMaterial(this.scene, cube, 'cube-2', this.gui, this.controls, cubeMaterialWithBumpMap)
+      cube2.position.x = 17
+      cube2.rotation.y = -1 / 3 * Math.PI
+
+      this.gui.add(cubeMaterialWithBumpMap, 'bumpScale', -1, 1, 0.001)
     }
   }
 }

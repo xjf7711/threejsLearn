@@ -1,12 +1,6 @@
 <template>
   <div class="example">
-    <h2>Example 10.24 - Video texture</h2>
-    <video
-      id="video"
-      style="display: none; position: absolute; left: 15px; top: 75px;"
-      src="static/threejs/learning/assets/movies/Big_Buck_Bunny_small.ogv"
-      controls="true"
-      autoplay="true"/>
+    <h2>Example 10.10 - Displacement map</h2>
   </div>
 </template>
 
@@ -15,7 +9,7 @@ import * as THREE from 'three'
 import threeMixin from '../../mixin/index'
 // import GLTFLoader from 'three-gltf-loader'
 // import GLTFLoader from '../../../assets/threejs/js/loaders/GLTFLoader'
-import { addGeometry } from './js/util'
+import { addGeometryWithMaterial } from './js/util'
 import { addLargeGroundPlane } from '../../mixin/create'
 export default {
   name: 'Example16',
@@ -24,7 +18,8 @@ export default {
     return {
       clock: new THREE.Clock(),
       controls: null,
-      polyhedronMesh: null,
+      spotLight: null,
+      sphereMaterial: null,
       sphereMesh: null,
       cubeMesh: null
     }
@@ -50,6 +45,9 @@ export default {
     initLight() {
       this.setSpotLight()
       this.scene.add(new THREE.AmbientLight(0x444444))
+      this.spotLight = this.scene.getObjectByName('spotLight')
+      this.spotLight.intensity = 0.1
+      this.scene.remove(this.scene.getObjectByName('ambientLight'))
     },
     // initHelper() {
     //   // 辅助工具
@@ -57,39 +55,40 @@ export default {
     //   this.scene.add(axesHelper)
     // },
     initModels() {
-      var groundPlane = addLargeGroundPlane(this.scene)
-      groundPlane.position.y = -10
-      // this.fbxLoad()
+      const groundPlane = addLargeGroundPlane(this.scene)
+      groundPlane.position.y = -8
     },
     setGui() {
       this.controls = {
-        material: null
+        lightIntensity: 0.1
       }
-      const video = document.getElementById('video')
-      const texture = new THREE.VideoTexture(video)
-      texture.minFilter = THREE.LinearFilter
-      texture.magFilter = THREE.LinearFilter
-      texture.format = THREE.RGBFormat
-      const polyhedron = new THREE.IcosahedronGeometry(8, 0)
-      this.polyhedronMesh = addGeometry(this.scene, polyhedron, 'polyhedron', texture, this.gui, this.controls)
-      this.polyhedronMesh.position.x = 20
-      this.scene.add(this.polyhedronMesh)
-      const sphere = new THREE.SphereGeometry(5, 20, 20)
-      this.sphereMesh = addGeometry(this.scene, sphere, 'sphere', texture, this.gui, this.controls)
-
-      var cube = new THREE.BoxGeometry(10, 10, 10)
-      // this.cubeMesh = addGeometry(this.scene, cube, 'cube', texture, this.gui, this.controls)
-      const cubeMaterial = new THREE.MeshLambertMaterial({
-        map: texture
+      var textureLoader = new THREE.TextureLoader()
+      var cubeMaterial = new THREE.MeshStandardMaterial({
+        emissive: 0xffffff,
+        emissiveMap: textureLoader.load('static/threejs/learning/assets/textures/emissive/lava.png'),
+        normalMap: textureLoader.load('static/threejs/learning/assets/textures/emissive/lava-normals.png'),
+        metalnessMap: textureLoader.load('static/threejs/learning/assets/textures/emissive/lava-smoothness.png'),
+        metalness: 1,
+        roughness: 0.4,
+        normalScale: new THREE.Vector2(4, 4)
       })
-      this.cubeMesh = new THREE.Mesh(cube, cubeMaterial)
-      this.cubeMesh.position.x = -20
-      this.scene.add(this.cubeMesh)
+
+      var cube = new THREE.BoxGeometry(16, 16, 16)
+      var cube1 = addGeometryWithMaterial(this.scene, cube, 'cube', this.gui, this.controls, cubeMaterial)
+      cube1.rotation.y = 1 / 3 * Math.PI
+      cube1.position.x = -12
+
+      var sphere = new THREE.SphereGeometry(9, 50, 50)
+      var sphere1 = addGeometryWithMaterial(this.scene, sphere, 'sphere', this.gui, this.controls, cubeMaterial.clone())
+      sphere1.rotation.y = 1 / 6 * Math.PI
+      sphere1.position.x = 15
+
+      this.gui.add(this.controls, 'lightIntensity', 0, 1, 0.01).onChange((e) => {
+        this.spotLight.intensity = e
+      })
     },
     render() {
-      if (this.polyhedronMesh) this.polyhedronMesh.rotation.x += 0.01
       if (this.sphereMesh) this.sphereMesh.rotation.y += 0.01
-      if (this.cubeMesh) this.cubeMesh.rotation.z += 0.01
     }
   }
 }

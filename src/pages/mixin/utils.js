@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 // import TrackballControls from 'three-trackballcontrols-es6'
 import OrbitControls from 'threejs-orbit-controls'
-const TrackballControls = require('three-trackballcontrols-es6')
+const TrackballControls = require('three-trackballcontrols')
 
 export function trackballControls(camera, rendererDom) {
   var trackballControls = new TrackballControls(camera, rendererDom)
