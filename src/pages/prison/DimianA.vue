@@ -40,13 +40,13 @@ export default {
     },
     fbxLoad() {
       const loader = new FBXLoader()
-      const uri = 'static/threejs/models/prison/diMianA.fbx'
+      const uri = 'static/threejs/models/prison/scene/diMianA.fbx'
       loader.load(uri, (result) => {
         console.log('result is ', result)
         // correctly position the scene
-        result.position.set(0, 1, 0)
-        result.rotation.x = 0
-        result.scale.set(0.01, 0.01, 0.01)
+        result.position.set(8, 0.1, 0)
+        result.rotation.x = -Math.PI / 2
+        result.scale.set(0.06, 0.06, 0.06)
         // result.translateY(-13)
         // result.scene.rotateY(-0.3 * Math.PI)
         this.scene.add(result)
@@ -54,7 +54,7 @@ export default {
     },
     jsonLoad() {
       const loader = new THREE.JSONLoader()
-      const uri = 'static/threejs/models/prison/dimianA.json'
+      const uri = 'static/threejs/models/prison/scene/dimianA.json'
       console.log('uri is ' + uri)
       loader.load(uri, (geometry, mat) => {
         // console.log('loader.load onload geometry is ', geometry)

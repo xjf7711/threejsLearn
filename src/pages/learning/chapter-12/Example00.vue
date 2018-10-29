@@ -1,6 +1,6 @@
 <template>
   <div class="example">
-    <h2>Example 10.24 - Video texture</h2>
+    <h2>ff</h2>
   </div>
 </template>
 

@@ -6,10 +6,9 @@
       <a name="t0"/>简介</h2>
 
       <p>
-        <code>Tween.js</code>是一个轻量级的
-        <code>JavaScript</code>库，中文官网是：
+        Tween.js是一个轻量级的 JavaScript库，中文官网是：
         <a href="http://www.createjs.cc/tweenjs/" rel="nofollow" target="_blank">http://www.createjs.cc/tweenjs/</a>。通过这个库可以很容易地实现某个属性在两个值之间的进行过渡，而且起始值和结束值之间的所有中间值都会自动计算出来，这个过程叫作
-        <code>tweening</code>（补间）。基础请查看：
+        tweening（补间）。基础请查看：
         <a href="https://blog.csdn.net/qq_30100043/article/details/79697349#t19" rel="nofollow" target="_blank">Tween.js补间动画插件入门</a>
       </p>
 
@@ -21,8 +20,7 @@
       </p>
 
       <ul>
-        <li>首先需要引入
-        <code>Tween.js</code>插件文件</li>
+        <li>首先需要引入 Tween.js插件文件</li>
       </ul>
 
       <pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/lib/js/libs/tween.min.js"</span>&gt;</span><span class="javascript"/><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></code></pre>
@@ -31,17 +29,41 @@
         <li>我们实例化对象，案例里面，我们创建了两个补间：tween和 tweenBack。 tween补间定义了 position的属性如何从1过渡到0， tweenBack刚好相反。通过使用 chain()方法可以将这两个补间衔接起来，这样当动画启动之后，程序就会在这两个补间循环。代码最后定义的是 onUpdate方法，这个方法通过获取当前的 position的值重新生成了所有顶点的 y轴的位置。</li>
       </ul>
 
-      <pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">const position = {<span class="hljs-built_in">y</span>: <span class="hljs-number">1</span>}<span class="hljs-comment">;</span>
-tween = new TWEEN<span class="hljs-preprocessor">.Tween</span>(position)<span class="hljs-preprocessor">.to</span>({<span class="hljs-built_in">y</span>: <span class="hljs-number">0</span>}, <span class="hljs-number">5000</span>)<span class="hljs-comment">;</span>
-tween<span class="hljs-preprocessor">.easing</span>(TWEEN<span class="hljs-preprocessor">.Easing</span><span class="hljs-preprocessor">.Sinusoidal</span><span class="hljs-preprocessor">.InOut</span>)<span class="hljs-comment">;</span>
-
-const tweenBack = new TWEEN<span class="hljs-preprocessor">.Tween</span>(position)<span class="hljs-preprocessor">.to</span>({<span class="hljs-built_in">y</span>: <span class="hljs-number">1</span>}, <span class="hljs-number">5000</span>)<span class="hljs-comment">;</span>
-tweenBack<span class="hljs-preprocessor">.easing</span>(TWEEN<span class="hljs-preprocessor">.Easing</span><span class="hljs-preprocessor">.Sinusoidal</span><span class="hljs-preprocessor">.InOut</span>)<span class="hljs-comment">;</span>
-
-tween<span class="hljs-preprocessor">.chain</span>(tweenBack)<span class="hljs-comment">;</span>
-tweenBack<span class="hljs-preprocessor">.chain</span>(tween)<span class="hljs-comment">;</span>
-
-const count = geometry<span class="hljs-preprocessor">.getAttribute</span>(<span class="hljs-string">"position"</span>)<span class="hljs-preprocessor">.count</span><span class="hljs-comment">;</span>
+      <pre class="prettyprint" name="code">
+        <code class="hljs avrasm has-numbering">const position = {
+          <span class="hljs-built_in">y</span>:
+          <span class="hljs-number">1</span>}
+          <span class="hljs-comment">;</span>tween = new TWEEN
+          <span class="hljs-preprocessor">.Tween</span>(position)
+          <span class="hljs-preprocessor">.to</span>({
+          <span class="hljs-built_in">y</span>:
+          <span class="hljs-number">0</span>},
+          <span class="hljs-number">5000</span>)
+          <span class="hljs-comment">;</span>tween
+          <span class="hljs-preprocessor">.easing</span>(TWEEN
+          <span class="hljs-preprocessor">.Easing</span>
+          <span class="hljs-preprocessor">.Sinusoidal</span>
+          <span class="hljs-preprocessor">.InOut</span>)
+          <span class="hljs-comment">;</span>const tweenBack = new TWEEN
+          <span class="hljs-preprocessor">.Tween</span>(position)
+          <span class="hljs-preprocessor">.to</span>({
+          <span class="hljs-built_in">y</span>:
+          <span class="hljs-number">1</span>},
+          <span class="hljs-number">5000</span>)
+          <span class="hljs-comment">;</span>tweenBack
+          <span class="hljs-preprocessor">.easing</span>(TWEEN
+          <span class="hljs-preprocessor">.Easing</span>
+          <span class="hljs-preprocessor">.Sinusoidal</span>
+          <span class="hljs-preprocessor">.InOut</span>)
+          <span class="hljs-comment">;</span>tween
+          <span class="hljs-preprocessor">.chain</span>(tweenBack)
+          <span class="hljs-comment">;</span>tweenBack
+          <span class="hljs-preprocessor">.chain</span>(tween)
+          <span class="hljs-comment">;</span>const count = geometry
+          <span class="hljs-preprocessor">.getAttribute</span>(
+          <span class="hljs-string">"position"</span>)
+          <span class="hljs-preprocessor">.count</span>
+          <span class="hljs-comment">;</span>
 
 //获取一下模型的最矮处
 geometry<span class="hljs-preprocessor">.computeBoundingBox</span>()<span class="hljs-comment">;</span>
@@ -71,7 +93,10 @@ tweenBack<span class="hljs-preprocessor">.onUpdate</span>(onUpdate)<span class="
         <code>tween.start()</code>。</li>
       </ul>
 
-      <pre class="prettyprint" name="code"><code class="hljs sql has-numbering">tween.<span class="hljs-operator"><span class="hljs-keyword">start</span>();</span></code></pre>
+      <pre class="prettyprint" name="code">
+        <code class="hljs sql has-numbering">tween.<span class="hljs-operator"><span class="hljs-keyword">start</span>();</span>
+      </code>
+      </pre>
 
       <ul>
         <li>当补间启动后，我们还需要告知
@@ -167,11 +192,9 @@ export default {
 
     initGui() {
       // 声明一个保存需求修改的相关数据的对象
-
       // const gui = {}
       //
       // const datGui = new dat.GUI()
-
       // 将设置属性添加到gui当中，gui.add(对象，属性，最小值，最大值）
     },
 
@@ -199,37 +222,40 @@ export default {
 
       const loader = new PLYLoader()
 
-      loader.load('static/threejs/examples/models/ply/binary/Lucy100k.ply', (geometry) => {
-        console.log('geometry is ', geometry)
-        // 更新顶点的法向量
-        geometry.computeVertexNormals()
+      loader.load(
+        'static/threejs/examples/models/ply/binary/Lucy100k.ply',
+        geometry => {
+          console.log('geometry is ', geometry)
+          // 更新顶点的法向量
+          geometry.computeVertexNormals()
 
-        // 创建纹理，并将模型添加到场景道中
+          // 创建纹理，并将模型添加到场景道中
 
-        const material = new THREE.MeshStandardMaterial({ color: 0x0055ff })
+          const material = new THREE.MeshStandardMaterial({ color: 0x0055ff })
 
-        const mesh = new THREE.Mesh(geometry, material)
+          const mesh = new THREE.Mesh(geometry, material)
 
-        mesh.rotation.y = Math.PI
+          mesh.rotation.y = Math.PI
 
-        mesh.scale.set(0.02, 0.02, 0.02)
+          mesh.scale.set(0.02, 0.02, 0.02)
 
-        this.scene.add(mesh)
+          this.scene.add(mesh)
 
-        // 保存一份默认的顶点信息
+          // 保存一份默认的顶点信息
 
-        const position = geometry.getAttribute('position').array
-        console.log('position is ', position)
-        geometry.localPosition = []
+          const position = geometry.getAttribute('position').array
+          console.log('position is ', position)
+          geometry.localPosition = []
 
-        for (let i = 0; i < position.length; i++) {
-          geometry.localPosition.push(position[i])
+          for (let i = 0; i < position.length; i++) {
+            geometry.localPosition.push(position[i])
+          }
+
+          // 初始化tween动画
+
+          this.initTween(geometry)
         }
-
-        // 初始化tween动画
-
-        this.initTween(geometry)
-      })
+      )
     },
 
     // 添加tween动画

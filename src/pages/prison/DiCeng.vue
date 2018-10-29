@@ -38,7 +38,7 @@ export default {
     },
     fbxLoad() {
       const loader = new FBXLoader()
-      const uri = 'static/threejs/models/prison/diCeng.fbx'
+      const uri = 'static/threejs/models/prison/scene/diCeng.fbx'
       loader.load(uri, (result) => {
         console.log('result is ', result)
         // // correctly position the scene
@@ -52,7 +52,7 @@ export default {
     },
     jsonLoad() {
       const loader = new THREE.JSONLoader()
-      const uri = 'static/threejs/models/prison/diCeng.json'
+      const uri = 'static/threejs/models/prison/scene/diCeng.json'
       console.log('uri is ' + uri)
       loader.load(uri, (geometry, mat) => {
         // console.log('loader.load onload geometry is ', geometry)

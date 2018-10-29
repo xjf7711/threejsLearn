@@ -33,12 +33,12 @@ export default {
       this.scene.add(gridHelper)
     },
     initModels() {
-      // this.fbxLoad()
-      this.jsonLoad()
+      this.fbxLoad()
+      // this.jsonLoad()
     },
     fbxLoad() {
       const loader = new FBXLoader()
-      const uri = 'static/threejs/models/prison/duiJiangJi.fbx'
+      const uri = 'static/threejs/models/prison/property/duiJiangJi.fbx'
       loader.load(uri, (result) => {
         console.log('result is ', result)
         // correctly position the scene
@@ -52,7 +52,7 @@ export default {
     },
     jsonLoad() {
       const loader = new THREE.JSONLoader()
-      const uri = 'static/threejs/models/prison/duiJiangJi.json'
+      const uri = 'static/threejs/models/prison/property/duiJiangJi.json'
       console.log('uri is ' + uri)
       loader.load(uri, (geometry, mat) => {
         // console.log('loader.load onload geometry is ', geometry)

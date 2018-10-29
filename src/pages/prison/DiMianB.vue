@@ -36,8 +36,8 @@ export default {
       this.scene.add(gridHelper)
     },
     initModels() {
-      this.gltfLoad()
-      // this.fbxLoad()
+      // this.gltfLoad()
+      this.fbxLoad()
       // this.jsonLoad()
     },
     gltfLoad() {
@@ -56,21 +56,21 @@ export default {
     },
     fbxLoad() {
       const loader = new FBXLoader()
-      const uri = 'static/threejs/models/prison/diMianB.fbx'
+      const uri = 'static/threejs/models/prison/scene/diMianB.fbx'
       loader.load(uri, (result) => {
         console.log('result is ', result)
         // correctly position the scene
-        result.children[0].position.set(0, 0.1, 0)
-        result.children[0].rotation.x = 0
-        result.children[0].scale.set(0.001, 0.001, 0.001)
-        // result.translateY(-13)
-        // result.scene.rotateY(-0.3 * Math.PI)
-        this.scene.add(result.children[0])
+        result.position.set(0, 0.1, 0)
+        result.rotation.x = -Math.PI / 2
+        result.scale.set(0.1, 0.1, 0.1)
+        // // result.translateY(-13)
+        // // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(result)
       })
     },
     jsonLoad() {
       const loader = new THREE.JSONLoader()
-      const uri = 'static/threejs/models/prison/diMianB.json'
+      const uri = 'static/threejs/models/prison/scene/diMianB.json'
       console.log('uri is ' + uri)
       loader.load(uri, (geometry, mat) => {
         // console.log('loader.load onload geometry is ', geometry)

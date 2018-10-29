@@ -425,12 +425,12 @@ export const learningRouterMap = [
         // redirect: '/chapter10/example02',
         meta: { title: 'chapter12', icon: 'table', noCache: true },
         children: [
-          {
-            path: 'example00',
-            component: () => import('@/pages/learning/chapter-12/Example00.vue'),
-            name: 'Example1200Index',
-            meta: { title: '00-template', icon: 'table', noCache: true }
-          },
+          // {
+          //   path: 'example00',
+          //   component: () => import('@/pages/learning/chapter-12/Example00.vue'),
+          //   name: 'Example1200Index',
+          //   meta: { title: '00-template', icon: 'table', noCache: true }
+          // },
           {
             path: 'example01',
             component: () => import('@/pages/learning/chapter-12/Example01.vue'),
