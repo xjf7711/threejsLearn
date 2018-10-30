@@ -21,21 +21,22 @@ export default {
   },
   methods: {
     setCamera() {
-      this.camera.position.set(30, 40, 50)
+      this.camera.position.set(500, 700, 900)
       this.camera.lookAt(new THREE.Vector3(0, 0, 0))
     },
     setCameraControls() {
-      this.cameraControls.minDistance = 1
-      this.cameraControls.maxDistance = 1000
+      this.cameraControls.minDistance = 200
+      this.cameraControls.maxDistance = 1800
     },
     initHelper() {
-      const axesHelper = new THREE.AxesHelper(30)
+      const axesHelper = new THREE.AxesHelper(600)
       this.scene.add(axesHelper)
-      const gridHelper = new THREE.GridHelper(50, 20)
+      const gridHelper = new THREE.GridHelper(1000, 20)
       this.scene.add(gridHelper)
     },
     initModels() {
       this.fbxLoad()
+      this.fbxLoadB()
       // this.jsonLoad()
     },
     fbxLoad() {
@@ -43,13 +44,30 @@ export default {
       const uri = 'static/threejs/models/prison/scene/diMianA.fbx'
       loader.load(uri, (result) => {
         console.log('result is ', result)
+        const mesh = result.children[0]
         // correctly position the scene
-        result.position.set(8, 0.1, 0)
-        result.rotation.x = -Math.PI / 2
-        result.scale.set(0.06, 0.06, 0.06)
+        mesh.position.set(150, 1, 0)
+        mesh.rotation.x = 0
+        mesh.scale.set(0.015, 0.015, 0.015)
         // result.translateY(-13)
         // result.scene.rotateY(-0.3 * Math.PI)
-        this.scene.add(result)
+        this.scene.add(mesh)
+      })
+    },
+    fbxLoadB() {
+      const loader = new FBXLoader()
+      const uri = 'static/threejs/models/prison/scene/diMianB.fbx'
+      loader.load(uri, (result) => {
+        console.log('result is ', result)
+        // correctly position the scene
+        const mesh = result.children[0]
+        // correctly position the scene
+        mesh.position.set(150, 1, 0)
+        mesh.rotation.x = 0
+        mesh.scale.set(0.015, 0.015, 0.015)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
+        this.scene.add(mesh)
       })
     },
     jsonLoad() {

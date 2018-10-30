@@ -15,17 +15,17 @@ export const prisonRouterMap = [
         meta: { title: '场景', icon: 'table', noCache: true },
         children: [
           {
-            path: 'diMianA',
+            path: 'diMian',
             component: () => import('@/pages/prison/DiMianA.vue'),
-            name: 'PrisonDimianA',
-            meta: { title: 'DiMianA', icon: 'table', noCache: true }
+            name: 'PrisonDimian',
+            meta: { title: '地面', icon: 'table', noCache: true }
           },
-          {
-            path: 'diMianB',
-            component: () => import('@/pages/prison/DiMianB.vue'),
-            name: 'PrisonDiMianB',
-            meta: { title: 'DiMianB', icon: 'table', noCache: true }
-          },
+          // {
+          //   path: 'diMianB',
+          //   component: () => import('@/pages/prison/DiMianB.vue'),
+          //   name: 'PrisonDiMianB',
+          //   meta: { title: 'DiMianB', icon: 'table', noCache: true }
+          // },
           {
             path: 'diCeng',
             component: () => import('@/pages/prison/DiCeng.vue'),
@@ -33,10 +33,28 @@ export const prisonRouterMap = [
             meta: { title: 'DiCeng', icon: 'table', noCache: true }
           },
           {
+            path: 'wuJianShe',
+            component: () => import('@/pages/prison/WuJianShe.vue'),
+            name: 'WuJianShe',
+            meta: { title: '五监舍', icon: 'table', noCache: true }
+          },
+          {
+            path: 'liuJianShe',
+            component: () => import('@/pages/prison/LiuJianShe.vue'),
+            name: 'LiuJianShe',
+            meta: { title: '六监舍', icon: 'table', noCache: true }
+          },
+          {
+            path: 'qiChangFang',
+            component: () => import('@/pages/prison/QiChangFang.vue'),
+            name: 'QiChangFang',
+            meta: { title: '七厂房', icon: 'table', noCache: true }
+          },
+          {
             path: 'baChangFang',
             component: () => import('@/pages/prison/BaChangFangA.vue'),
             name: 'BaChangFang',
-            meta: { title: '靶场房', icon: 'table', noCache: true }
+            meta: { title: '八厂房', icon: 'table', noCache: true }
           },
           // {
           //   path: 'baChangFangB',
@@ -86,29 +104,12 @@ export const prisonRouterMap = [
             name: 'JinBiShi',
             meta: { title: '禁闭室', icon: 'table', noCache: true }
           },
-          {
-            path: 'liuJianShe',
-            component: () => import('@/pages/prison/LiuJianShe.vue'),
-            name: 'LiuJianShe',
-            meta: { title: '六监舍', icon: 'table', noCache: true }
-          },
-          {
-            path: 'qiChangFang',
-            component: () => import('@/pages/prison/QiChangFang.vue'),
-            name: 'QiChangFang',
-            meta: { title: '七厂房', icon: 'table', noCache: true }
-          },
+
           {
             path: 'shiTang',
             component: () => import('@/pages/prison/ShiTang.vue'),
             name: 'ShiTang',
             meta: { title: '食堂', icon: 'table', noCache: true }
-          },
-          {
-            path: 'wuJianShe',
-            component: () => import('@/pages/prison/WuJianShe.vue'),
-            name: 'WuJianShe',
-            meta: { title: '五监舍', icon: 'table', noCache: true }
           },
           {
             path: 'xinJianShe',
