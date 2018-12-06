@@ -1,27 +1,26 @@
-import Cookies from 'js-cookie'
-
+// import Cookies from 'js-cookie'
 const app = {
   state: {
     sidebar: {
-      opened: !+Cookies.get('sidebarStatus'),
+      opened: !+localStorage.getItem('sidebarStatus'),
       withoutAnimation: false
     },
     device: 'desktop',
-    language: Cookies.get('language') || 'en',
-    size: Cookies.get('size') || 'medium'
+    language: localStorage.getItem('language') || 'en',
+    size: localStorage.getItem('size') || 'medium'
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
       if (state.sidebar.opened) {
-        Cookies.set('sidebarStatus', 1)
+        localStorage.setItem('sidebarStatus', 1)
       } else {
-        Cookies.set('sidebarStatus', 0)
+        localStorage.setItem('sidebarStatus', 0)
       }
       state.sidebar.opened = !state.sidebar.opened
       state.sidebar.withoutAnimation = false
     },
     CLOSE_SIDEBAR: (state, withoutAnimation) => {
-      Cookies.set('sidebarStatus', 1)
+      localStorage.setItem('sidebarStatus', 1)
       state.sidebar.opened = false
       state.sidebar.withoutAnimation = withoutAnimation
     },
@@ -30,11 +29,11 @@ const app = {
     },
     SET_LANGUAGE: (state, language) => {
       state.language = language
-      Cookies.set('language', language)
+      localStorage.setItem('language', language)
     },
     SET_SIZE: (state, size) => {
       state.size = size
-      Cookies.set('size', size)
+      localStorage.setItem('size', size)
     }
   },
   actions: {

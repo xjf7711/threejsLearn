@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     animate() {
-      this.stats.update()
+      this.stats && this.stats.update()
       this.myReq = requestAnimationFrame(this.animate)
       this.render()// 如不同，在组件中重写
       this.renderer && this.renderer.render(this.scene, this.camera)

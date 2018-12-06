@@ -8,8 +8,7 @@
 import * as THREE from 'three'
 import threeMixin from '../../mixin/index'
 import Physijs from './js/physi'
-Physijs.scripts.worker = 'static/threejs/learning/libs/other/physijs/physijs_worker.js'
-Physijs.scripts.ammo = './ammo.js'
+
 export default {
   name: 'Example16',
   mixins: [threeMixin],
@@ -20,8 +19,15 @@ export default {
       ground: null
     }
   },
+  created() {
+    Physijs.scripts.worker = 'static/threejs/learning/libs/other/physijs/physijs_worker.js'
+    Physijs.scripts.ammo = './ammo.js'
+  },
   mounted() {
   },
+  // destroyed() {
+  //   Physijs.scripts = null
+  // },
   methods: {
     // once everything is loaded, we run our Three.js stuff.
     initScene() {

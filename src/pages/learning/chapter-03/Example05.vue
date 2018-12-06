@@ -70,7 +70,7 @@ export default {
 
       // create the ground plane
       const loader = new THREE.TextureLoader()
-      const url = 'static/threejs/learning/textures/ground/grasslight-big.jpg'
+      const url = 'static/threejs/learning/assets/textures/ground/grasslight-big.jpg'
       const textureGrass = loader.load(url)
       textureGrass.wrapS = THREE.RepeatWrapping
       textureGrass.wrapT = THREE.RepeatWrapping

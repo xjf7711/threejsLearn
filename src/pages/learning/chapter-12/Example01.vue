@@ -10,8 +10,7 @@ import threeMixin from '../../mixin/index'
 // inject Three.js
 // const Physijs = require('physijs-webpack')(THREE)
 import Physijs from './js/physi'
-Physijs.scripts.worker = 'static/threejs/learning/libs/other/physijs/physijs_worker.js'
-Physijs.scripts.ammo = './ammo.js'
+
 export default {
   name: 'Example01',
   mixins: [threeMixin],
@@ -20,8 +19,15 @@ export default {
       clock: new THREE.Clock()
     }
   },
+  created() {
+    Physijs.scripts.worker = 'static/threejs/learning/libs/other/physijs/physijs_worker.js'
+    Physijs.scripts.ammo = './ammo.js' // 取的是Physijs.script.worker.js的相对位置
+  },
   mounted() {
   },
+  // destroyed() {
+  //   Physijs.scripts = null
+  // },
   methods: {
     // once everything is loaded, we run our Three.js stuff.
     initScene() {

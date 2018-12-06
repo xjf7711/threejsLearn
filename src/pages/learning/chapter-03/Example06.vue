@@ -21,7 +21,7 @@ const FilmicOperator = 4
 // const UnchartedOperator = 5
 
 export default {
-  name: 'Example0302',
+  name: 'Example0306',
   data() {
     return {
       width: 0,
@@ -221,8 +221,8 @@ export default {
 
       // Align top-left
       stats.domElement.style.position = 'absolute'
-      stats.domElement.style.left = '0px'
-      stats.domElement.style.top = '0px'
+      stats.domElement.style.left = '20px'
+      stats.domElement.style.top = '87px'
 
       this.$el.appendChild(stats.domElement)
 

@@ -153,6 +153,10 @@ export default {
     this.raycaster = new THREE.Raycaster()
     this.draw()
   },
+  destroyed() {
+    this.stats = null
+    this.gui = null
+  },
   methods: {
     // 渲染器
     initRender() {

@@ -87,7 +87,6 @@ Particle.prototype.addForce = function ( force ) {
 
 };
 
-
 // Performs Verlet integration
 
 Particle.prototype.integrate = function ( timesq ) {
@@ -104,7 +103,6 @@ Particle.prototype.integrate = function ( timesq ) {
 
 };
 
-
 export var diff = new THREE.Vector3();
 
 export function satisfyConstraints( p1, p2, distance ) {
@@ -119,9 +117,7 @@ export function satisfyConstraints( p1, p2, distance ) {
 
 }
 
-
 function Cloth( w, h ) {
-
 	w = w || 10;
 	h = h || 10;
 	this.w = w;
@@ -146,7 +142,6 @@ function Cloth( w, h ) {
 	}
 
 	// Structural
-
 	for ( v = 0; v < h; v ++ ) {
 
 		for ( u = 0; u < w; u ++ ) {
@@ -168,7 +163,6 @@ function Cloth( w, h ) {
 	}
 
 	for ( u = w, v = 0; v < h; v ++ ) {
-
 		constraints.push( [
 			particles[ index( u, v ) ],
 			particles[ index( u, v + 1 ) ],
@@ -179,7 +173,6 @@ function Cloth( w, h ) {
 	}
 
 	for ( v = h, u = 0; u < w; u ++ ) {
-
 		constraints.push( [
 			particles[ index( u, v ) ],
 			particles[ index( u + 1, v ) ],
@@ -188,149 +181,104 @@ function Cloth( w, h ) {
 
 	}
 
-
 	// While many systems use shear and bend springs,
 	// the relaxed constraints model seems to be just fine
 	// using structural springs.
 	// Shear
-	// var diagonalDist = Math.sqrt(restDistance * restDistance * 2);
-
-
-	// for (v=0;v<h;v++) {
-	// 	for (u=0;u<w;u++) {
-
-	// 		constraints.push([
-	// 			particles[index(u, v)],
-	// 			particles[index(u+1, v+1)],
-	// 			diagonalDist
-	// 		]);
-
-	// 		constraints.push([
-	// 			particles[index(u+1, v)],
-	// 			particles[index(u, v+1)],
-	// 			diagonalDist
-	// 		]);
-
-	// 	}
-	// }
-
+	var diagonalDist = Math.sqrt(restDistance * restDistance * 2);
+	for (v=0;v<h;v++) {
+		for (u=0;u<w;u++) {
+			constraints.push([
+				particles[index(u, v)],
+				particles[index(u+1, v+1)],
+				diagonalDist
+			]);
+			constraints.push([
+				particles[index(u+1, v)],
+				particles[index(u, v+1)],
+				diagonalDist
+			]);
+		}
+	}
 
 	this.particles = particles;
 	this.constraints = constraints;
 
 	function index( u, v ) {
-
 		return u + v * ( w + 1 );
-
 	}
-
 	this.index = index;
-
 }
 
 function simulate( time ) { // 在vue中实现
 
 	if ( ! lastTime ) {
-
 		lastTime = time;
 		return;
-
 	}
 
 	var i, il, particles, particle, pt, constraints, constraint;
 
 	// Aerodynamics forces
-
 	if ( wind ) {
-
 		var face, faces = clothGeometry.faces, normal;
-
 		particles = cloth.particles;
-
 		for ( i = 0, il = faces.length; i < il; i ++ ) {
-
 			face = faces[ i ];
 			normal = face.normal;
-
 			tmpForce.copy( normal ).normalize().multiplyScalar( normal.dot( windForce ) );
 			particles[ face.a ].addForce( tmpForce );
 			particles[ face.b ].addForce( tmpForce );
 			particles[ face.c ].addForce( tmpForce );
-
 		}
-
 	}
 
 	for ( particles = cloth.particles, i = 0, il = particles.length; i < il; i ++ ) {
-
 		particle = particles[ i ];
 		particle.addForce( gravity );
-
 		particle.integrate( TIMESTEP_SQ );
-
 	}
 
 	// Start Constraints
-
 	constraints = cloth.constraints;
 	il = constraints.length;
 
 	for ( i = 0; i < il; i ++ ) {
-
 		constraint = constraints[ i ];
 		satisfyConstraints( constraint[ 0 ], constraint[ 1 ], constraint[ 2 ] );
-
 	}
 
 	// Ball Constraints
-
 	ballPosition.z = - Math.sin( Date.now() / 600 ) * 90; //+ 40;
 	ballPosition.x = Math.cos( Date.now() / 400 ) * 70;
 
 	if ( sphere.visible ) {
-
 		for ( particles = cloth.particles, i = 0, il = particles.length; i < il; i ++ ) {
-
 			particle = particles[ i ];
 			var pos = particle.position;
 			diff.subVectors( pos, ballPosition );
 			if ( diff.length() < ballSize ) {
-
 				// collided
 				diff.normalize().multiplyScalar( ballSize );
 				pos.copy( ballPosition ).add( diff );
-
 			}
-
 		}
-
 	}
 
-
 	// Floor Constraints
-
 	for ( particles = cloth.particles, i = 0, il = particles.length; i < il; i ++ ) {
-
 		particle = particles[ i ];
 		pos = particle.position;
 		if ( pos.y < - 250 ) {
-
 			pos.y = - 250;
-
 		}
-
 	}
 
 	// Pin Constraints
-
 	for ( i = 0, il = pins.length; i < il; i ++ ) {
-
 		var xy = pins[ i ];
 		var p = particles[ xy ];
 		p.position.copy( p.original );
 		p.previous.copy( p.original );
-
 	}
-
-
 }

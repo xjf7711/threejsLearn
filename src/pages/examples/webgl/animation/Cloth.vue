@@ -59,6 +59,9 @@ export default {
   mounted() {
     if (!Detector.webgl) Detector.addGetWebGLMessage()
 
+    this.width = this.$el.clientWidth - 40
+    this.height = this.$el.clientHeight - 100
+
     /* testing cloth simulation */
     this.pinsFormation.push(this.pins)
 
@@ -78,23 +81,29 @@ export default {
 
     const GRAVITY = 981 * 1.4
     this.gravity = new THREE.Vector3(0, -GRAVITY, 0).multiplyScalar(MASS)
+    // this.container = document.createElement('div')
+    // document.getElementById('cloth').appendChild(this.container)
 
-    this.init()
+    this.initScene()
+    this.initCamera()
+    this.initLight()
+    this.initRenderer()
+
+    this.initCameraControls()
+    this.initModels()
+    // performance monitor
+
+    this.initStats()
+
+    window.addEventListener('resize', this.onWindowResize, false)
+
+    this.sphere.visible = false
+
     this.animate()
   },
   methods: {
-    init() {
-      this.container = document.createElement('div')
-      document.getElementById('cloth').appendChild(this.container)
-
-      // scene
-
-      this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color(0xcce0ff)
-      this.scene.fog = new THREE.Fog(0xcce0ff, 500, 10000)
-
+    initCamera() {
       // this.camera
-
       this.camera = new THREE.PerspectiveCamera(
         30,
         this.width / this.height,
@@ -102,9 +111,9 @@ export default {
         10000
       )
       this.camera.position.set(1000, 50, 1500)
-
+    },
+    initLight() {
       // lights
-
       this.scene.add(new THREE.AmbientLight(0x666666))
 
       const light = new THREE.DirectionalLight(0xdfebff, 1)
@@ -115,7 +124,6 @@ export default {
 
       light.shadow.mapSize.width = 1024
       light.shadow.mapSize.height = 1024
-
       const d = 300
 
       light.shadow.camera.left = -d
@@ -126,9 +134,37 @@ export default {
       light.shadow.camera.far = 1000
 
       this.scene.add(light)
+    },
+    initScene() {
+      // scene
+      this.scene = new THREE.Scene()
+      this.scene.background = new THREE.Color(0xcce0ff)
+      this.scene.fog = new THREE.Fog(0xcce0ff, 500, 10000)
+    },
+    initRenderer() {
+      // this.renderer
+      this.renderer = new THREE.WebGLRenderer({ antialias: true })
+      this.renderer.setPixelRatio(window.devicePixelRatio)
+      this.renderer.setSize(this.width, this.height)
+      // this.renderer.shadowMap.renderSingleSided = false;
+      this.renderer.shadowSide = false
 
+      this.$el.appendChild(this.renderer.domElement)
+
+      this.renderer.gammaInput = true
+      this.renderer.gammaOutput = true
+
+      this.renderer.shadowMap.enabled = true
+    },
+    initCameraControls() {
+      // controls
+      const controls = new OrbitControls(this.camera, this.renderer.domElement)
+      controls.maxPolarAngle = Math.PI * 0.5
+      controls.minDistance = 500
+      controls.maxDistance = 5000
+    },
+    initModels() {
       // cloth material
-
       const loader = new THREE.TextureLoader()
       const clothTexture = loader.load(
         'static/threejs/examples/textures/patterns/circuit_pattern.png'
@@ -173,10 +209,8 @@ export default {
       this.scene.add(this.sphere)
 
       // ground
-
-      const groundTexture = loader.load(
-        'static/threejs/examples/textures/terrain/grasslight-big.jpg'
-      )
+      const url = 'static/threejs/examples/textures/terrain/grasslight-big.jpg'
+      const groundTexture = loader.load(url)
       groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping
       groundTexture.repeat.set(25, 25)
       groundTexture.anisotropy = 16
@@ -185,90 +219,62 @@ export default {
         map: groundTexture
       })
 
-      let mesh = new THREE.Mesh(
+      const groundMesh = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(20000, 20000),
         groundMaterial
       )
-      mesh.position.y = -250
-      mesh.rotation.x = -Math.PI / 2
-      mesh.receiveShadow = true
-      this.scene.add(mesh)
+      groundMesh.position.y = -250
+      groundMesh.rotation.x = -Math.PI / 2
+      groundMesh.receiveShadow = true
+      this.scene.add(groundMesh)
 
       // poles
 
       const poleGeo = new THREE.BoxBufferGeometry(5, 375, 5)
       const poleMat = new THREE.MeshLambertMaterial()
 
-      mesh = new THREE.Mesh(poleGeo, poleMat)
-      mesh.position.x = -125
-      mesh.position.y = -62
-      mesh.receiveShadow = true
-      mesh.castShadow = true
-      this.scene.add(mesh)
+      const poleMesh1 = new THREE.Mesh(poleGeo, poleMat)
+      poleMesh1.position.x = -125
+      poleMesh1.position.y = -62
+      poleMesh1.receiveShadow = true
+      poleMesh1.castShadow = true
+      this.scene.add(poleMesh1)
 
-      mesh = new THREE.Mesh(poleGeo, poleMat)
-      mesh.position.x = 125
-      mesh.position.y = -62
-      mesh.receiveShadow = true
-      mesh.castShadow = true
-      this.scene.add(mesh)
+      // const poleMesh2 = new THREE.Mesh(poleGeo, poleMat)
+      const poleMesh2 = poleMesh1.clone()
+      poleMesh2.position.x = 125
+      poleMesh2.position.y = -62
+      poleMesh2.receiveShadow = true
+      poleMesh2.castShadow = true
+      this.scene.add(poleMesh2)
 
-      mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(255, 5, 5), poleMat)
-      mesh.position.y = -250 + 750 / 2
-      mesh.position.x = 0
-      mesh.receiveShadow = true
-      mesh.castShadow = true
-      this.scene.add(mesh)
+      const boxMesh = new THREE.Mesh(new THREE.BoxBufferGeometry(255, 5, 5), poleMat)
+      boxMesh.position.y = -250 + 750 / 2
+      boxMesh.position.x = 0
+      boxMesh.receiveShadow = true
+      boxMesh.castShadow = true
+      this.scene.add(boxMesh)
 
       const gg = new THREE.BoxBufferGeometry(10, 10, 10)
-      mesh = new THREE.Mesh(gg, poleMat)
-      mesh.position.y = -250
-      mesh.position.x = 125
-      mesh.receiveShadow = true
-      mesh.castShadow = true
-      this.scene.add(mesh)
+      const poleBox1 = new THREE.Mesh(gg, poleMat)
+      poleBox1.position.y = -250
+      poleBox1.position.x = 125
+      poleBox1.receiveShadow = true
+      poleBox1.castShadow = true
+      this.scene.add(poleBox1)
 
-      mesh = new THREE.Mesh(gg, poleMat)
-      mesh.position.y = -250
-      mesh.position.x = -125
-      mesh.receiveShadow = true
-      mesh.castShadow = true
-      this.scene.add(mesh)
-
-      // this.renderer
-
-      this.renderer = new THREE.WebGLRenderer({ antialias: true })
-      this.renderer.setPixelRatio(window.devicePixelRatio)
-      this.renderer.setSize(this.width, this.height)
-      // this.renderer.shadowMap.renderSingleSided = false;
-      this.renderer.shadowSide = false
-
-      this.container.appendChild(this.renderer.domElement)
-
-      this.renderer.gammaInput = true
-      this.renderer.gammaOutput = true
-
-      this.renderer.shadowMap.enabled = true
-
-      // controls
-      const controls = new OrbitControls(this.camera, this.renderer.domElement)
-      controls.maxPolarAngle = Math.PI * 0.5
-      controls.minDistance = 1000
-      controls.maxDistance = 5000
-
-      // performance monitor
-
-      this.initStats()
-
-      //
-
-      window.addEventListener('resize', this.onWindowResize, false)
-
-      this.sphere.visible = false
+      const poleBox2 = new THREE.Mesh(gg, poleMat)
+      poleBox2.position.y = -250
+      poleBox2.position.x = -125
+      poleBox2.receiveShadow = true
+      poleBox2.castShadow = true
+      this.scene.add(poleBox2)
     },
     initStats() {
       this.stats = new Stats()
       this.stats.domElement.style.position = 'absolute'
+      this.stats.domElement.style.left = '20px'
+      this.stats.domElement.style.top = '82px'
       this.$el.appendChild(this.stats.domElement)
     },
     togglePins() {
@@ -277,6 +283,8 @@ export default {
       ]
     },
     onWindowResize() {
+      this.width = this.$el.clientWidth - 40
+      this.height = this.$el.clientHeight - 100
       this.camera.aspect = this.width / this.height
       this.camera.updateProjectionMatrix()
 
@@ -331,6 +339,7 @@ export default {
       // let pt
       // let constraints
       let constraint
+      let pos
 
       // Aerodynamics forces
 
@@ -377,7 +386,7 @@ export default {
       if (this.sphere.visible) {
         for (particles = cloth.particles, i = 0, il = particles.length; i < il; i++) {
           particle = particles[ i ]
-          var pos = particle.position
+          pos = particle.position
           diff.subVectors(pos, ballPosition)
           if (diff.length() < ballSize) {
             // collided
@@ -400,8 +409,8 @@ export default {
       // Pin Constraints
 
       for (i = 0, il = this.pins.length; i < il; i++) {
-        var xy = this.pins[ i ]
-        var p = particles[ xy ]
+        const xy = this.pins[ i ]
+        const p = particles[ xy ]
         p.position.copy(p.original)
         p.previous.copy(p.original)
       }
@@ -417,6 +426,9 @@ export default {
   color: #000;
   margin: 0;
   overflow: hidden;
+  padding: 20px;
+  width: 100%;
+  height: 900px;
 }
 
 #info {

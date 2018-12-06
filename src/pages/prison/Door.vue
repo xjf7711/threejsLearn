@@ -32,7 +32,7 @@ export default {
       const gridHelper = new THREE.GridHelper(40, 20)
       this.scene.add(gridHelper)
     },
-    initModels() {
+    async initModels() {
       // this.fbxLoadA()
       // this.fbxLoadB()
       this.fbxLoad()

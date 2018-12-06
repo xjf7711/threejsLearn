@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <div class="example">
     <h2>Ocean</h2>
@@ -8,10 +9,10 @@
 import * as THREE from 'three'
 import Sky from '@/assets/threejs/js/objects/Sky.js'
 import Water from '@/assets/threejs/js/objects/Water.js'
-import mixin from '../../../mixin/index'
+import threeMixin from '../../../mixin/index'
 export default {
   name: 'Ocean',
-  mixins: [mixin],
+  mixins: [threeMixin],
   data() {
     return {
       directionalLight: null,
@@ -40,7 +41,7 @@ export default {
     this.updateSun()
   },
   methods: {
-    setLight() {
+    initLight() {
       this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
       this.scene.add(this.directionalLight)
     },
@@ -76,12 +77,12 @@ export default {
       if (this.sphere) this.sphere.rotation.x = time * 0.5
       if (this.sphere) this.sphere.rotation.z = time * 0.51
 
-      this.water.material.uniforms.time.value += 1.0 / 60.0
+      if (this.water) this.water.material.uniforms.time.value += 1.0 / 60.0
       this.renderer && this.renderer.render(this.scene, this.camera)
     },
     drawSphere() {
       //
-      const geometry = new THREE.IcosahedronBufferGeometry(20, 1)
+      const geometry = new THREE.IcosahedronBufferGeometry(8, 1)
       const count = geometry.attributes.position.count
 
       const colors = []

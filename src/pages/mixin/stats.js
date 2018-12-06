@@ -8,8 +8,11 @@ export default {
   mounted() {
     this.initStats()
   },
+  destroyed() {
+    this.stats = null
+  },
   methods: {
-    initStats() {
+    async initStats() {
       this.stats = new Stats()
 
       this.stats.setMode(0) // 0: fps, 1: ms

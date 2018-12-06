@@ -337,8 +337,8 @@ export default {
       this.initLight()
       this.initModel()
       this.initControls()
-      this.initStats()
-      this.animate()
+      // this.initStats()
+      // this.animate()
 
       window.onresize = this.onWindowResize
     },

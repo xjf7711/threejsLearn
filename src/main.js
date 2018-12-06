@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
@@ -21,8 +21,14 @@ import './mock' // simulation data
 
 import * as filters from './filters' // global filters
 
+// 因为vConsole并不需要调用，
+// 所以前面加“eslint-disable no-unused-vars”规避掉eslint语法检查
+/* eslint-disable no-unused-vars */
+import VConsole from 'vconsole'
+new VConsole()
+
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
+  size: localStorage.getItem('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
 

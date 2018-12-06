@@ -25,8 +25,8 @@ export default {
       this.camera.lookAt(new THREE.Vector3(0, 0, 0))
     },
     setCameraControls() {
-      this.cameraControls.minDistance = 60
-      this.cameraControls.maxDistance = 8000
+      this.cameraControls.minDistance = 200
+      this.cameraControls.maxDistance = 2000
     },
     initHelper() {
       const axesHelper = new THREE.AxesHelper(300)
@@ -44,12 +44,12 @@ export default {
       loader.load(uri, (result) => {
         console.log('result is ', result)
         const mesh = result
-        // // correctly position the scene
+        // correctly position the scene
         mesh.position.set(2510, 125, -1020)
         mesh.rotation.x = Math.PI / 2
         mesh.scale.set(7, 7, 7)
-        // // result.translateY(-13)
-        // // result.scene.rotateY(-0.3 * Math.PI)
+        // result.translateY(-13)
+        // result.scene.rotateY(-0.3 * Math.PI)
         this.scene.add(mesh)
       })
     }

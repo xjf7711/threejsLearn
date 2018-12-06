@@ -135,7 +135,7 @@ export default {
       // 加载模型
 
       var loader = new FBXLoader()
-      loader.load('static/threejs/models/fbx/Samba Dancing.fbx', mesh => {
+      loader.load('static/threejs/examples/models/fbx/Samba Dancing.fbx', mesh => {
         console.log('FBXLoader loaded, mesh is ', mesh)
 
         // 添加骨骼辅助

@@ -12,6 +12,11 @@
   "env": {
     "development":{
       "plugins": ["dynamic-import-node"]
+    },
+    "test": {
+      "presets": [
+        ["env", {"targets": {"node": "current"}}]
+      ]
     }
   }
 }
