@@ -32,12 +32,27 @@ export default {
       this.cameraControls.maxDistance = 6000
     },
     initHelper() {
-      const axesHelper = new THREE.AxesHelper(300)
-      this.scene.add(axesHelper)
-      const gridHelper = new THREE.GridHelper(500, 20)
-      this.scene.add(gridHelper)
+      // const axesHelper = new THREE.AxesHelper(300)
+      // this.scene.add(axesHelper)
+      // const gridHelper = new THREE.GridHelper(500, 20)
+      // this.scene.add(gridHelper)
     },
     initModels() {
+      // create the ground plane
+      const planeGeometry = new THREE.PlaneGeometry(500, 500, 2, 2)
+      this.planeGeometry = planeGeometry
+      const planeMaterial = new THREE.MeshLambertMaterial({ color: 0x7FFFD4 })
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+      plane.receiveShadow = true
+
+      // rotate and position the plane
+      plane.rotation.x = -0.5 * Math.PI
+      plane.position.x = 0
+      plane.position.y = 0
+      plane.position.z = 0
+      this.plane = plane
+      // add the plane to the scene
+      this.scene.add(plane)
       this.fbxLoad()
       // this.jsonLoad()
     },
