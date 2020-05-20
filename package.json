@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "ammo.js": "0.0.10",
-    "axios": "0.18.0",
+    "axios": "0.19.2",
     "clipboard": "1.7.1",
     "codemirror": "5.39.2",
     "connect": "3.6.6",
